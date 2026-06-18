@@ -1,6 +1,9 @@
 import { BrandMark } from '@/components/brand-mark'
+import type { SiteContent } from '@/lib/content/types'
 
-export function HeroSection() {
+export function HeroSection({ content }: { content: SiteContent['hero'] }) {
+  if (!content.visible) return null
+
   return (
     <section
       id="top"
@@ -8,45 +11,47 @@ export function HeroSection() {
     >
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center">
         <p className="animate-fade-up text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
-          Private Holding &amp; Venture Group
+          {content.eyebrow}
         </p>
 
         <div className="animate-fade-up mt-12" style={{ animationDelay: '120ms' }}>
-          <BrandMark size="xl" />
+          <BrandMark size="xl" priority />
         </div>
 
         <h1
           className="animate-fade-up mt-16 text-balance font-heading text-3xl font-normal leading-[1.18] text-foreground sm:text-4xl lg:text-5xl"
           style={{ animationDelay: '240ms' }}
         >
-          Building brands with taste, discipline and long-term vision.
+          {content.headline}
         </h1>
 
         <p
           className="animate-fade-up mt-8 max-w-xl text-pretty text-base leading-relaxed text-graphite lg:text-lg"
           style={{ animationDelay: '340ms' }}
         >
-          LMVK Group creates premium projects across hospitality, technology,
-          commerce and lifestyle — built with patience, quality and clear
-          identity.
+          {content.subtitle}
         </p>
 
         <div
           className="animate-fade-up mt-14 flex flex-col items-center gap-4 sm:flex-row"
           style={{ animationDelay: '440ms' }}
         >
-          <a
-            href="#portfolio"
-            className="inline-flex items-center justify-center border border-foreground px-9 py-4 text-xs font-medium uppercase tracking-[0.25em] text-foreground transition-colors duration-300 hover:border-gold hover:text-gold"
-          >
-            View portfolio
-          </a>
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center border border-border px-9 py-4 text-xs font-medium uppercase tracking-[0.25em] text-foreground transition-colors duration-300 hover:border-gold hover:text-gold"
-          >
-            Contact LMVK Group
-          </a>
+          {content.primaryCtaText ? (
+            <a
+              href={content.primaryCtaLink}
+              className="inline-flex items-center justify-center border border-foreground px-9 py-4 text-xs font-medium uppercase tracking-[0.25em] text-foreground transition-colors duration-300 hover:border-gold hover:text-gold"
+            >
+              {content.primaryCtaText}
+            </a>
+          ) : null}
+          {content.secondaryCtaText ? (
+            <a
+              href={content.secondaryCtaLink}
+              className="inline-flex items-center justify-center border border-border px-9 py-4 text-xs font-medium uppercase tracking-[0.25em] text-foreground transition-colors duration-300 hover:border-gold hover:text-gold"
+            >
+              {content.secondaryCtaText}
+            </a>
+          ) : null}
         </div>
       </div>
     </section>

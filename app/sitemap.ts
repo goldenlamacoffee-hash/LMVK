@@ -1,27 +1,40 @@
 import type { MetadataRoute } from 'next'
-import { projects } from '@/lib/projects'
+import { localeConfig, locales } from '@/lib/i18n'
+import { getLocale } from '@/lib/locale-server'
+import { defaultContent } from '@/lib/content/defaults'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-  ? process.env.NEXT_PUBLIC_SITE_URL
-  : process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'http://localhost:3000'
+function alternatesFor(path: string) {
+  const languages: Record<string, string> = {}
+  for (const l of locales) {
+    languages[localeConfig[l].hreflang] = `${localeConfig[l].origin}${path}`
+  }
+  return languages
+}
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const locale = await getLocale()
+  const origin = localeConfig[locale].origin
   const now = new Date()
+
+  const slugs = defaultContent.projects
+    .filter((p) => p.visible)
+    .sort((a, b) => a.order - b.order)
+    .map((p) => p.slug)
 
   return [
     {
-      url: siteUrl,
+      url: origin,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 1,
+      alternates: { languages: alternatesFor('') },
     },
-    ...projects.map((project) => ({
-      url: `${siteUrl}/projects/${project.slug}`,
+    ...slugs.map((slug) => ({
+      url: `${origin}/projects/${slug}`,
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+      alternates: { languages: alternatesFor(`/projects/${slug}`) },
     })),
   ]
 }

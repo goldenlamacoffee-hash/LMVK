@@ -1,9 +1,17 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
-import { projects } from '@/lib/projects'
+import type { ProjectContent, SiteContent } from '@/lib/content/types'
 
-export function PortfolioSection() {
+export function PortfolioSection({
+  content,
+  projects,
+}: {
+  content: SiteContent['portfolio']
+  projects: ProjectContent[]
+}) {
+  if (!content.visible) return null
+
   return (
     <section
       id="portfolio"
@@ -12,14 +20,13 @@ export function PortfolioSection() {
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
-            03 — Portfolio
+            {content.eyebrow}
           </p>
           <h2 className="mt-10 max-w-2xl text-balance font-heading text-3xl font-normal leading-tight text-foreground sm:text-4xl lg:text-5xl">
-            A small, curated group of projects.
+            {content.title}
           </h2>
           <p className="mt-8 max-w-xl text-pretty leading-relaxed text-graphite">
-            Each project carries its own identity. LMVK Group remains the quiet
-            structure and long-term vision behind them.
+            {content.intro}
           </p>
         </Reveal>
 
