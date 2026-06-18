@@ -1,5 +1,3 @@
-import { headers } from 'next/headers'
-
 export const locales = ['sk', 'cs', 'en'] as const
 export type Locale = (typeof locales)[number]
 
@@ -59,14 +57,6 @@ export function localeFromHost(host: string | null | undefined): Locale {
 
   // Unknown hosts (previews, localhost, vercel.app) fall back safely.
   return defaultLocale
-}
-
-/** Resolve the active locale for the current request from its host header. */
-export async function getLocale(): Promise<Locale> {
-  const headerList = await headers()
-  const host =
-    headerList.get('x-forwarded-host') ?? headerList.get('host') ?? null
-  return localeFromHost(host)
 }
 
 export function isLocale(value: string): value is Locale {

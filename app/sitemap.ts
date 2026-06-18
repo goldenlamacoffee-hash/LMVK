@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
-import { getLocale, localeConfig, locales } from '@/lib/i18n'
+import { localeConfig, locales } from '@/lib/i18n'
+import { getLocale } from '@/lib/locale-server'
 import { defaultContent } from '@/lib/content/defaults'
 
 function alternatesFor(path: string) {

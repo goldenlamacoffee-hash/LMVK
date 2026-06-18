@@ -1,7 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Montserrat } from 'next/font/google'
-import { getLocale, localeConfig } from '@/lib/i18n'
+import { localeConfig } from '@/lib/i18n'
+import { getLocale } from '@/lib/locale-server'
 import './globals.css'
 
 const playfair = Playfair_Display({
