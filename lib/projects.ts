@@ -64,46 +64,14 @@ export const projects: Project[] = [
     mark: 'GL',
   },
   {
-    slug: 'monocool',
-    index: '02',
-    name: 'MonoCool',
-    field: 'B2B Cooling',
-    category: 'B2B Cooling / Installations',
-    status: 'In preparation',
-    summary:
-      'A B2B cooling and installation brand built on reliable engineering, clean execution and dependable service.',
-    description:
-      'MonoCool is a business-to-business cooling and installation brand in preparation under LMVK Group. It is built for clients who value precise engineering, clean installation and service they can depend on — without compromise or noise.',
-    philosophy:
-      'Infrastructure should be quiet and dependable. We focus on correct specification, careful installation and long-term reliability, so the systems we build are remembered for never causing a problem.',
-    values: [
-      {
-        title: 'Engineering',
-        description:
-          'Correct specification and precise execution, sized for the real demands of each site.',
-      },
-      {
-        title: 'Installation',
-        description:
-          'Clean, professional installation carried out with discipline and respect for the space.',
-      },
-      {
-        title: 'Service',
-        description:
-          'Dependable maintenance and support that keeps systems running quietly for years.',
-      },
-    ],
-    mark: 'MC',
-  },
-  {
     slug: 'golden-studio',
-    index: '03',
+    index: '02',
     name: 'Golden Studio',
     field: 'Technology',
-    category: 'Digital Products / AI / Websites / Apps',
+    category: 'Digital Products / Websites / Apps / AI',
     status: 'In preparation',
     summary:
-      'A digital product studio focused on websites, applications, AI-assisted workflows and practical business automation.',
+      'A future digital product studio focused on websites, apps, CMS systems and practical AI-assisted business workflows.',
     description:
       'Golden Studio is a digital product studio in preparation under LMVK Group. It helps small businesses establish a serious digital presence — websites, applications, CMS systems and AI-assisted workflows — without the cost and complexity of a large agency.',
     philosophy:
@@ -129,13 +97,13 @@ export const projects: Project[] = [
   },
   {
     slug: 'future-ventures',
-    index: '04',
+    index: '03',
     name: 'Future Ventures',
-    field: 'Commerce & Lifestyle',
-    category: 'Brands / Commerce / Lifestyle',
+    field: 'Strategic Projects',
+    category: 'Strategic Projects',
     status: 'Coming next',
     summary:
-      'New brands and strategic projects developed and held under the LMVK Group structure.',
+      'New brands and business concepts developed under the LMVK Group structure.',
     description:
       'LMVK Group is building a portfolio of premium brands and practical business projects. Future Ventures is where the next ideas take shape — held, developed and supported under a single, patient structure.',
     philosophy:

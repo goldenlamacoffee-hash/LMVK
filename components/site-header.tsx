@@ -7,9 +7,9 @@ import { cn } from '@/lib/utils'
 import { BrandMark } from '@/components/brand-mark'
 
 const navLinks = [
-  { label: 'Group', href: '/#group' },
-  { label: 'Brands', href: '/#brands' },
-  { label: 'Studio', href: '/projects/golden-studio' },
+  { label: 'About', href: '/#about' },
+  { label: 'Philosophy', href: '/#philosophy' },
+  { label: 'Portfolio', href: '/#portfolio' },
   { label: 'Contact', href: '/#contact' },
 ]
 

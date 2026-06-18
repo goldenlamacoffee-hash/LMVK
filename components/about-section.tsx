@@ -1,73 +1,61 @@
 import { Reveal } from '@/components/reveal'
 
-const pillars = [
+const essence = [
   {
-    title: 'Legacy',
-    description:
-      'Continuity and responsibility. We build companies meant to outlast trends and stand for something over time.',
+    label: 'Purpose',
+    statement: 'Build brands with long-term value.',
   },
   {
-    title: 'Control',
-    description:
-      'Clear rules, precise systems and measured decisions. Discipline is what makes the work look effortless.',
+    label: 'Positioning',
+    statement: 'Quiet luxury, disciplined growth, clear identity.',
   },
   {
-    title: 'Trust',
-    description:
-      'A professional, consistent and transparent presence — in every brand we hold and every interaction we have.',
-  },
-  {
-    title: 'Growth',
-    description:
-      'A structure built to hold many future brands under one roof, each given the patience it needs to mature.',
+    label: 'Attributes',
+    statement: 'Premium, timeless, confident, restrained, precise.',
   },
 ]
 
 export function AboutSection() {
   return (
     <section
-      id="group"
-      className="border-t border-border/50 px-6 py-32 lg:px-10 lg:py-44"
+      id="about"
+      className="border-t border-border px-6 py-32 lg:px-10 lg:py-44"
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div className="mx-auto max-w-5xl">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Reveal>
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
-                01 — The Group
+                01 — Brand Essence
               </p>
             </Reveal>
             <Reveal delay={120}>
-              <p className="mt-10 text-balance font-heading text-3xl font-light leading-[1.25] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.2]">
-                A house of trusted companies — not a loud startup.
+              <p className="mt-10 text-pretty font-heading text-2xl font-normal leading-[1.4] text-foreground sm:text-3xl">
+                A private holding and venture group focused on premium projects
+                in hospitality, technology, commerce and lifestyle.
               </p>
             </Reveal>
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">
-            <Reveal delay={200}>
-              <p className="max-w-xl text-pretty text-lg leading-relaxed text-graphite">
-                LMVK Group is the umbrella brand for serious business building:
-                stable, precise, long-term and selective. Every project must
-                carry lasting value in experience, trust and reputation.
-              </p>
-            </Reveal>
-
-            <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden border border-border/60 bg-border/60 sm:grid-cols-2">
-              {pillars.map((pillar, i) => (
-                <Reveal key={pillar.title} delay={280 + i * 100}>
-                  <div className="h-full bg-card p-8 lg:p-10">
-                    <h3 className="font-heading text-2xl font-normal text-foreground">
-                      {pillar.title}
-                    </h3>
-                    <span className="mt-4 block h-px w-10 bg-gold" />
-                    <p className="mt-5 text-pretty leading-relaxed text-warm-grey">
-                      {pillar.description}
-                    </p>
+            {essence.map((item, i) => (
+              <Reveal key={item.label} delay={160 + i * 100}>
+                <div className="flex flex-col gap-3 border-t border-border py-10 first:border-t-0 first:pt-0 lg:py-12 lg:first:pt-0">
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="block h-1.5 w-1.5 rotate-45 bg-gold"
+                    />
+                    <span className="text-[0.7rem] font-medium uppercase tracking-[0.4em] text-warm-grey">
+                      {item.label}
+                    </span>
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                  <p className="text-balance font-heading text-2xl font-normal leading-snug text-foreground lg:text-3xl">
+                    {item.statement}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>

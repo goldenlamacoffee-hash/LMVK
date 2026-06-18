@@ -2,15 +2,14 @@ import Link from 'next/link'
 import { BrandMark } from '@/components/brand-mark'
 
 const groupLinks = [
-  { label: 'The Group', href: '/#group' },
+  { label: 'About', href: '/#about' },
   { label: 'Philosophy', href: '/#philosophy' },
-  { label: 'Brands', href: '/#brands' },
+  { label: 'Portfolio', href: '/#portfolio' },
   { label: 'Contact', href: '/#contact' },
 ]
 
 const brandLinks = [
   { label: 'Golden Lama Coffee', href: '/projects/golden-lama-coffee' },
-  { label: 'MonoCool', href: '/projects/monocool' },
   { label: 'Golden Studio', href: '/projects/golden-studio' },
   { label: 'Future Ventures', href: '/projects/future-ventures' },
 ]
@@ -23,14 +22,14 @@ export function SiteFooter() {
           <div className="md:col-span-5">
             <BrandMark size="md" className="items-start" />
             <p className="mt-6 max-w-xs text-pretty leading-relaxed text-warm-grey">
-              A disciplined group for long-term ventures across hospitality,
-              technology and commerce.
+              Private holding &amp; venture group, building premium projects
+              across hospitality, technology, commerce and lifestyle.
             </p>
           </div>
 
-          <nav className="md:col-span-3 md:col-start-7" aria-label="Group">
+          <nav className="md:col-span-3 md:col-start-7" aria-label="Navigate">
             <p className="text-[0.7rem] font-medium uppercase tracking-[0.35em] text-warm-grey">
-              Group
+              Navigate
             </p>
             <ul className="mt-6 flex flex-col gap-3">
               {groupLinks.map((link) => (
@@ -46,9 +45,9 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          <nav className="md:col-span-3" aria-label="Brands">
+          <nav className="md:col-span-3" aria-label="Projects">
             <p className="text-[0.7rem] font-medium uppercase tracking-[0.35em] text-warm-grey">
-              Brands
+              Projects
             </p>
             <ul className="mt-6 flex flex-col gap-3">
               {brandLinks.map((link) => (

@@ -25,7 +25,7 @@ export function PhilosophySection() {
   return (
     <section
       id="philosophy"
-      className="border-t border-border/50 px-6 py-32 lg:px-10 lg:py-44"
+      className="border-t border-border bg-secondary/40 px-6 py-32 lg:px-10 lg:py-44"
     >
       <div className="mx-auto max-w-7xl">
         <Reveal>
@@ -40,7 +40,7 @@ export function PhilosophySection() {
         <div className="mt-20 lg:mt-28">
           {principles.map((item, i) => (
             <Reveal key={item.title} delay={i * 120}>
-              <div className="grid grid-cols-1 gap-6 border-t border-border/50 py-12 md:grid-cols-12 md:gap-12 lg:py-16">
+              <div className="grid grid-cols-1 gap-6 border-t border-border py-12 md:grid-cols-12 md:gap-12 lg:py-16">
                 <div className="md:col-span-3">
                   <span className="font-heading text-2xl font-light text-gold">
                     {item.number}

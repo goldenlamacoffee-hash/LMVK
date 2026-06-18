@@ -4,7 +4,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden border-t border-border/50 bg-primary px-6 py-36 text-primary-foreground lg:px-10 lg:py-52"
+      className="relative overflow-hidden border-t border-border bg-primary px-6 py-36 text-primary-foreground lg:px-10 lg:py-52"
     >
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
@@ -13,12 +13,12 @@ export function ContactSection() {
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-gold">
                 04 — Contact
               </p>
-              <h2 className="mt-10 text-balance font-heading text-4xl font-light leading-[1.1] sm:text-5xl lg:text-6xl">
+              <h2 className="mt-10 text-balance font-heading text-4xl font-normal leading-[1.12] sm:text-5xl lg:text-6xl">
                 Let&apos;s build something with long-term value.
               </h2>
-              <p className="mt-10 max-w-lg text-pretty text-lg leading-relaxed text-primary-foreground/60">
+              <p className="mt-10 max-w-lg text-pretty text-lg leading-relaxed text-primary-foreground/65">
                 For partnerships, project opportunities or business
-                communication, reach the group directly.
+                communication, contact LMVK Group.
               </p>
             </Reveal>
           </div>
@@ -35,7 +35,7 @@ export function ContactSection() {
               <div className="mt-10 flex items-center gap-3 text-[0.7rem] uppercase tracking-[0.35em] text-primary-foreground/55">
                 <span>Marek Veselý</span>
                 <span className="h-px w-6 bg-primary-foreground/30" />
-                <span>CEO &amp; Founder</span>
+                <span>CEO</span>
               </div>
             </Reveal>
           </div>
