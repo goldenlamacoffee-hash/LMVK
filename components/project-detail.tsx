@@ -15,7 +15,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         <div className="relative mx-auto max-w-4xl">
           <Reveal>
             <Link
-              href="/#brands"
+              href="/#portfolio"
               className="group inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.35em] text-warm-grey transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-x-1" />
@@ -27,7 +27,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             <p className="mt-12 text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
               {project.status}
             </p>
-            <h1 className="mt-8 text-balance font-heading text-5xl font-light leading-[1.05] text-foreground sm:text-6xl lg:text-7xl">
+            <h1 className="mt-8 text-balance font-heading text-5xl font-normal leading-[1.08] text-foreground sm:text-6xl lg:text-7xl">
               {project.name}
             </h1>
             <GoldDivider variant="short" className="mt-10 w-24" />
@@ -71,7 +71,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               </p>
             </Reveal>
             <Reveal delay={100}>
-              <p className="mt-12 max-w-3xl text-balance font-heading text-2xl font-light leading-snug text-foreground sm:text-3xl lg:text-4xl">
+              <p className="mt-12 max-w-3xl text-balance font-heading text-2xl font-normal leading-snug text-foreground sm:text-3xl lg:text-4xl">
                 {project.philosophy}
               </p>
             </Reveal>
@@ -96,7 +96,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                     <span className="font-mono text-xs tracking-widest text-warm-grey md:col-span-1">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h2 className="font-heading text-3xl font-light leading-none text-foreground md:col-span-4 lg:text-4xl">
+                    <h2 className="font-heading text-3xl font-normal leading-none text-foreground md:col-span-4 lg:text-4xl">
                       {value.title}
                     </h2>
                     <p className="max-w-md text-pretty leading-relaxed text-warm-grey md:col-span-7 lg:text-lg">
@@ -120,12 +120,12 @@ export function ProjectDetail({ project }: { project: Project }) {
             and emotional value.
           </p>
           <Link
-            href="/#brands"
+            href="/#portfolio"
             className="group mt-10 inline-flex items-center gap-2 text-sm font-medium tracking-wide text-foreground"
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-500 group-hover:-translate-x-1" />
             <span className="relative">
-              Back to all brands
+              Back to portfolio
               <span className="absolute -bottom-1 left-0 h-px w-full bg-gold/60 transition-all duration-300 group-hover:bg-gold" />
             </span>
           </Link>

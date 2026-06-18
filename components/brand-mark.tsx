@@ -13,38 +13,36 @@ interface BrandMarkProps {
 
 const sizeMap: Record<
   BrandMarkSize,
-  { word: string; line: string; descriptor: string; gap: string }
+  { word: string; line: string; descriptor: string }
 > = {
   sm: {
-    word: 'text-xl',
-    line: 'mt-1 h-px w-8',
-    descriptor: 'mt-1 text-[0.55rem] tracking-[0.45em]',
-    gap: '',
+    word: 'text-lg tracking-[0.32em] mr-[-0.32em]',
+    line: 'mt-1.5 h-px w-7',
+    descriptor: 'mt-1.5 text-[0.5rem] tracking-[0.5em] mr-[-0.5em]',
   },
   md: {
-    word: 'text-3xl',
+    word: 'text-2xl tracking-[0.34em] mr-[-0.34em]',
     line: 'mt-2 h-px w-10',
-    descriptor: 'mt-2 text-[0.65rem] tracking-[0.5em]',
-    gap: '',
+    descriptor: 'mt-2 text-[0.6rem] tracking-[0.55em] mr-[-0.55em]',
   },
   lg: {
-    word: 'text-6xl sm:text-7xl',
+    word: 'text-5xl tracking-[0.36em] mr-[-0.36em] sm:text-6xl',
     line: 'mt-4 h-px w-16',
-    descriptor: 'mt-4 text-xs tracking-[0.6em] sm:text-sm',
-    gap: '',
+    descriptor: 'mt-3 text-xs tracking-[0.62em] mr-[-0.62em] sm:text-sm',
   },
   xl: {
-    word: 'text-7xl sm:text-8xl lg:text-9xl',
-    line: 'mt-6 h-px w-20 lg:w-24',
-    descriptor: 'mt-5 text-sm tracking-[0.6em] lg:text-base',
-    gap: '',
+    word: 'text-6xl tracking-[0.34em] mr-[-0.34em] sm:text-7xl lg:text-8xl',
+    line: 'mt-6 h-px w-20 lg:w-28',
+    descriptor: 'mt-5 text-sm tracking-[0.65em] mr-[-0.65em] lg:text-base',
   },
 }
 
 /**
- * The LMVK Group wordmark lockup, built as typography per the Design
- * Manual (§02): high-contrast serif wordmark, a thin gold divider, and a
- * spaced sans-serif descriptor in strict vertical hierarchy.
+ * The LMVK Group logo lockup, built as typography per the Brand Manual
+ * (§02): a bold sans-serif "LMVK" wordmark, a thin gold divider centered
+ * to the wordmark, and a spaced "GROUP" descriptor in strict vertical
+ * hierarchy. The gold line must stay centered — never shifted or scaled
+ * independently.
  */
 export function BrandMark({
   size = 'sm',
@@ -52,23 +50,26 @@ export function BrandMark({
   className,
 }: BrandMarkProps) {
   const s = sizeMap[size]
-  const wordColor = tone === 'light' ? 'text-primary-foreground' : 'text-foreground'
+  const wordColor =
+    tone === 'light' ? 'text-primary-foreground' : 'text-foreground'
   const descriptorColor =
-    tone === 'light' ? 'text-primary-foreground/55' : 'text-muted-foreground'
+    tone === 'light' ? 'text-primary-foreground/65' : 'text-foreground/80'
 
   return (
     <span
       className={cn('inline-flex flex-col items-center leading-none', className)}
       aria-label="LMVK Group"
     >
-      <span
-        className={cn('font-heading font-medium tracking-[0.22em]', s.word, wordColor)}
-      >
+      <span className={cn('font-sans font-semibold', s.word, wordColor)}>
         LMVK
       </span>
       <span aria-hidden="true" className={cn('bg-gold', s.line)} />
       <span
-        className={cn('font-sans font-medium uppercase', s.descriptor, descriptorColor)}
+        className={cn(
+          'font-sans font-medium uppercase',
+          s.descriptor,
+          descriptorColor,
+        )}
       >
         Group
       </span>

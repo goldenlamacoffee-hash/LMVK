@@ -6,20 +6,20 @@ import { projects } from '@/lib/projects'
 export function PortfolioSection() {
   return (
     <section
-      id="brands"
-      className="border-t border-border/50 px-6 py-32 lg:px-10 lg:py-44"
+      id="portfolio"
+      className="border-t border-border px-6 py-32 lg:px-10 lg:py-44"
     >
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
-            03 — Brands
+            03 — Portfolio
           </p>
-          <h2 className="mt-10 max-w-2xl text-balance font-heading text-3xl font-light leading-tight text-foreground sm:text-4xl lg:text-5xl">
-            A small, curated house of brands.
+          <h2 className="mt-10 max-w-2xl text-balance font-heading text-3xl font-normal leading-tight text-foreground sm:text-4xl lg:text-5xl">
+            A small, curated group of projects.
           </h2>
           <p className="mt-8 max-w-xl text-pretty leading-relaxed text-graphite">
-            Portfolio brands can carry their own identity. LMVK Group remains
-            the quiet guarantee behind each of them.
+            Each project carries its own identity. LMVK Group remains the quiet
+            structure and long-term vision behind them.
           </p>
         </Reveal>
 
@@ -28,7 +28,7 @@ export function PortfolioSection() {
             <Reveal key={project.slug} delay={i * 120}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group block border-t border-border/50 py-12 transition-colors duration-500 last:border-b lg:py-16"
+                className="group block border-t border-border py-12 transition-colors duration-500 last:border-b lg:py-16"
               >
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:items-baseline md:gap-10">
                   <div className="flex items-baseline gap-4 md:col-span-1">
@@ -38,7 +38,7 @@ export function PortfolioSection() {
                   </div>
 
                   <div className="md:col-span-5">
-                    <h3 className="font-heading text-4xl font-light leading-none text-foreground transition-colors duration-500 group-hover:text-gold lg:text-5xl">
+                    <h3 className="font-heading text-4xl font-normal leading-none text-foreground transition-colors duration-500 group-hover:text-gold lg:text-5xl">
                       {project.name}
                     </h3>
                     <p className="mt-4 text-[0.7rem] font-medium uppercase tracking-[0.35em] text-warm-grey">

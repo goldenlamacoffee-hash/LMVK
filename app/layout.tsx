@@ -1,17 +1,18 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Inter } from 'next/font/google'
+import { Playfair_Display, Montserrat } from 'next/font/google'
 import './globals.css'
 
-const cormorant = Cormorant_Garamond({
-  variable: '--font-cormorant',
+const playfair = Playfair_Display({
+  variable: '--font-playfair',
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
 })
 
-const inter = Inter({
-  variable: '--font-inter',
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
@@ -79,7 +80,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#f7f4ec',
+  themeColor: '#f6f3ee',
 }
 
 export default function RootLayout({
@@ -90,7 +91,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`light ${cormorant.variable} ${inter.variable} bg-background`}
+      className={`light ${playfair.variable} ${montserrat.variable} bg-background`}
     >
       <body className="font-sans antialiased">
         {children}
