@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Montserrat } from 'next/font/google'
+import { getLocale, localeConfig } from '@/lib/i18n'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -83,14 +84,16 @@ export const viewport: Viewport = {
   themeColor: '#f6f3ee',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+
   return (
     <html
-      lang="en"
+      lang={localeConfig[locale].htmlLang}
       className={`light ${playfair.variable} ${montserrat.variable} bg-background`}
     >
       <body className="font-sans antialiased">

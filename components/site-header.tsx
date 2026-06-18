@@ -5,17 +5,26 @@ import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BrandMark } from '@/components/brand-mark'
+import { LanguageSwitcher } from '@/components/language-switcher'
+import type { SiteContent } from '@/lib/content/types'
+import type { Locale } from '@/lib/i18n'
 
-const navLinks = [
-  { label: 'About', href: '/#about' },
-  { label: 'Philosophy', href: '/#philosophy' },
-  { label: 'Portfolio', href: '/#portfolio' },
-  { label: 'Contact', href: '/#contact' },
-]
-
-export function SiteHeader() {
+export function SiteHeader({
+  nav,
+  locale,
+}: {
+  nav: SiteContent['nav']
+  locale: Locale
+}) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+
+  const navLinks = [
+    { label: nav.about, href: '/#about' },
+    { label: nav.philosophy, href: '/#philosophy' },
+    { label: nav.portfolio, href: '/#portfolio' },
+    { label: nav.contact, href: '/#contact' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -42,18 +51,22 @@ export function SiteHeader() {
           <BrandMark size="sm" />
         </Link>
 
-        <nav className="hidden items-center gap-10 md:flex" aria-label="Primary">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="group relative text-xs font-medium uppercase tracking-[0.25em] text-foreground/75 transition-colors hover:text-foreground"
-            >
-              {link.label}
-              <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden items-center gap-10 md:flex">
+          <nav className="flex items-center gap-10" aria-label="Primary">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="group relative text-xs font-medium uppercase tracking-[0.25em] text-foreground/75 transition-colors hover:text-foreground"
+              >
+                {link.label}
+                <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
+          </nav>
+          <span aria-hidden="true" className="h-4 w-px bg-border" />
+          <LanguageSwitcher current={locale} />
+        </div>
 
         <button
           type="button"
@@ -70,7 +83,7 @@ export function SiteHeader() {
       <div
         className={cn(
           'overflow-hidden border-t border-border/60 bg-background/95 backdrop-blur-md transition-[max-height,opacity] duration-500 md:hidden',
-          open ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0',
+          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
         )}
       >
         <nav className="flex flex-col px-6 py-4" aria-label="Mobile">
@@ -79,11 +92,14 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="border-b border-border/40 py-4 font-heading text-xl text-foreground/90 transition-colors last:border-0 hover:text-gold"
+              className="border-b border-border/40 py-4 font-heading text-xl text-foreground/90 transition-colors hover:text-gold"
             >
               {link.label}
             </Link>
           ))}
+          <div className="py-5">
+            <LanguageSwitcher current={locale} />
+          </div>
         </nav>
       </div>
     </header>

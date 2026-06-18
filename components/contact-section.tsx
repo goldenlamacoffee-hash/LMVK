@@ -1,6 +1,13 @@
 import { Reveal } from '@/components/reveal'
+import type { SiteContent } from '@/lib/content/types'
 
-export function ContactSection() {
+export function ContactSection({
+  content,
+}: {
+  content: SiteContent['contact']
+}) {
+  if (!content.visible) return null
+
   return (
     <section
       id="contact"
@@ -11,14 +18,13 @@ export function ContactSection() {
           <div className="lg:col-span-7">
             <Reveal>
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-gold">
-                04 — Contact
+                {content.eyebrow}
               </p>
               <h2 className="mt-10 text-balance font-heading text-4xl font-normal leading-[1.12] sm:text-5xl lg:text-6xl">
-                Let&apos;s build something with long-term value.
+                {content.title}
               </h2>
               <p className="mt-10 max-w-lg text-pretty text-lg leading-relaxed text-primary-foreground/65">
-                For partnerships, project opportunities or business
-                communication, contact LMVK Group.
+                {content.text}
               </p>
             </Reveal>
           </div>
@@ -27,15 +33,15 @@ export function ContactSection() {
             <Reveal delay={160}>
               <span className="block h-px w-16 bg-gold" />
               <a
-                href="mailto:vesely@goldenlama.sk"
+                href={`mailto:${content.email}`}
                 className="mt-8 inline-block font-heading text-2xl font-light tracking-wide text-gold transition-opacity hover:opacity-80 lg:text-3xl"
               >
-                vesely@goldenlama.sk
+                {content.email}
               </a>
               <div className="mt-10 flex items-center gap-3 text-[0.7rem] uppercase tracking-[0.35em] text-primary-foreground/55">
-                <span>Marek Veselý</span>
+                <span>{content.personName}</span>
                 <span className="h-px w-6 bg-primary-foreground/30" />
-                <span>CEO</span>
+                <span>{content.personRole}</span>
               </div>
             </Reveal>
           </div>

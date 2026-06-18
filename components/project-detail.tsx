@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import type { Project } from '@/lib/projects'
+import type { ProjectContent } from '@/lib/content/types'
 import { MonogramBackdrop } from '@/components/monogram-backdrop'
 import { GoldDivider } from '@/components/gold-divider'
 import { Reveal } from '@/components/reveal'
 
-export function ProjectDetail({ project }: { project: Project }) {
+export function ProjectDetail({ project }: { project: ProjectContent }) {
+  const hasWebsite = Boolean(project.websiteHref && project.websiteLabel)
+  const hasValues = project.values && project.values.length > 0
+
   return (
     <article>
       {/* Hero */}
@@ -42,16 +45,16 @@ export function ProjectDetail({ project }: { project: Project }) {
             </p>
           </Reveal>
 
-          {project.website ? (
+          {hasWebsite ? (
             <Reveal delay={240}>
               <a
-                href={project.website.href}
+                href={project.websiteHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group mt-12 inline-flex items-center gap-2 text-sm font-medium tracking-wide text-foreground"
               >
                 <span className="relative">
-                  Visit {project.website.label}
+                  Visit {project.websiteLabel}
                   <span className="absolute -bottom-1 left-0 h-px w-full bg-gold/60 transition-all duration-300 group-hover:bg-gold" />
                 </span>
                 <ArrowUpRight className="h-4 w-4 text-gold transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
@@ -80,7 +83,7 @@ export function ProjectDetail({ project }: { project: Project }) {
       ) : null}
 
       {/* Brand values */}
-      {project.values && project.values.length > 0 ? (
+      {hasValues ? (
         <section className="border-t border-border/50 px-6 py-28 lg:px-10 lg:py-40">
           <div className="mx-auto max-w-5xl">
             <Reveal>
