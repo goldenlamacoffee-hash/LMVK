@@ -20,8 +20,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
-            <BrandMark size="md" className="items-start" />
-            <p className="mt-6 max-w-xs text-pretty leading-relaxed text-warm-grey">
+            <BrandMark size="md" />
+            <p className="mt-8 max-w-xs text-pretty leading-relaxed text-warm-grey">
               Private holding &amp; venture group, building premium projects
               across hospitality, technology, commerce and lifestyle.
             </p>

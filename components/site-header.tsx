@@ -34,8 +34,12 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
-        <Link href="/" aria-label="LMVK Group home" className="-my-1">
-          <BrandMark size="sm" className="items-start" />
+        <Link
+          href="/"
+          aria-label="LMVK Group home"
+          className="inline-flex items-center py-1"
+        >
+          <BrandMark size="sm" />
         </Link>
 
         <nav className="hidden items-center gap-10 md:flex" aria-label="Primary">
