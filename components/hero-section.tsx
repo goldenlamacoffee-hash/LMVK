@@ -12,7 +12,7 @@ export function HeroSection() {
         </p>
 
         <div className="animate-fade-up mt-12" style={{ animationDelay: '120ms' }}>
-          <BrandMark size="xl" />
+          <BrandMark size="xl" priority />
         </div>
 
         <h1
