@@ -351,6 +351,17 @@ export function AdminEditor({
               }
             />
           </Field>
+          <Field label="Intro">
+            <TextArea
+              value={content.philosophy.intro}
+              onChange={(v) =>
+                update((d) => ({
+                  ...d,
+                  philosophy: { ...d.philosophy, intro: v },
+                }))
+              }
+            />
+          </Field>
           {content.philosophy.principles.map((p, i) => (
             <div
               key={i}

@@ -108,6 +108,14 @@ export function ProjectsEditor({
                       onChange={(v) => updateProject(project.slug, { name: v })}
                     />
                   </Field>
+                  <Field label="Subtitle">
+                    <TextInput
+                      value={project.subtitle}
+                      onChange={(v) =>
+                        updateProject(project.slug, { subtitle: v })
+                      }
+                    />
+                  </Field>
                   <Field label="Field">
                     <TextInput
                       value={project.field}
