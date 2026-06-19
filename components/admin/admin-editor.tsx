@@ -158,7 +158,42 @@ export function AdminEditor({
               }
             />
           </Field>
-          <Field label="OG image path" hint="e.g. /og-image.png">
+          <Field
+            label="Open Graph title"
+            hint="Used for social shares. Falls back to SEO title when empty."
+          >
+            <TextInput
+              value={content.settings.ogTitle ?? ''}
+              onChange={(v) =>
+                update((d) => ({
+                  ...d,
+                  settings: { ...d.settings, ogTitle: v },
+                }))
+              }
+            />
+          </Field>
+          <Field
+            label="Open Graph description"
+            hint="Used for social shares. Falls back to SEO description when empty."
+          >
+            <TextArea
+              value={content.settings.ogDescription ?? ''}
+              onChange={(v) =>
+                update((d) => ({
+                  ...d,
+                  settings: { ...d.settings, ogDescription: v },
+                }))
+              }
+            />
+          </Field>
+        </FieldGroup>
+
+        {/* Brand Assets */}
+        <FieldGroup title="Brand Assets">
+          <Field
+            label="Open Graph / social image path"
+            hint="Path to the share image, e.g. /og-image.png. Updates live."
+          >
             <TextInput
               value={content.settings.ogImage}
               onChange={(v) =>
@@ -169,6 +204,12 @@ export function AdminEditor({
               }
             />
           </Field>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            The logo and favicon are fixed brand-manual assets managed in code
+            (no image upload yet), so they are not editable here. The OG / social
+            image above is editable because it is referenced by path. To change
+            the logo or favicon, replace the asset files in the project.
+          </p>
         </FieldGroup>
 
         {/* Navigation */}
@@ -549,6 +590,28 @@ export function AdminEditor({
                   update((d) => ({
                     ...d,
                     contact: { ...d.contact, email: v },
+                  }))
+                }
+              />
+            </Field>
+            <Field label="Phone" hint="Optional. Hidden when empty.">
+              <TextInput
+                value={content.contact.phone ?? ''}
+                onChange={(v) =>
+                  update((d) => ({
+                    ...d,
+                    contact: { ...d.contact, phone: v },
+                  }))
+                }
+              />
+            </Field>
+            <Field label="Company / legal line" hint="Optional. Hidden when empty.">
+              <TextInput
+                value={content.contact.company ?? ''}
+                onChange={(v) =>
+                  update((d) => ({
+                    ...d,
+                    contact: { ...d.contact, company: v },
                   }))
                 }
               />

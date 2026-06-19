@@ -4,6 +4,8 @@
     "siteDescription": "LMVK Group je soukromá holdingová a venture skupina, která tvoří prémiové projekty v gastronomii, technologiích, obchodu a životním stylu.",
     "seoTitle": "LMVK Group — Soukromá holdingová a venture skupina",
     "seoDescription": "LMVK Group je soukromá holdingová a venture skupina, která tvoří prémiové projekty v gastronomii, technologiích, obchodu a životním stylu.",
+    "ogTitle": "LMVK Group — Soukromá holdingová a venture skupina",
+    "ogDescription": "Prémiové projekty v gastronomii, technologiích, obchodu a životním stylu — s trpělivostí, kvalitou a jasnou identitou.",
     "ogImage": "/og-image.png",
     "contactEmail": "vesely@goldenlama.sk",
     "socialLinks": []
@@ -65,6 +67,8 @@
     "title": "Pojďme budovat něco s dlouhodobou hodnotou.",
     "text": "Pro partnerství, projektové příležitosti nebo obchodní komunikaci kontaktujte LMVK Group.",
     "email": "vesely@goldenlama.sk",
+    "phone": "",
+    "company": "",
     "personName": "Marek Veselý",
     "personRole": "CEO"
   },
@@ -96,6 +100,8 @@
       "websiteLabel": "Golden Lama",
       "websiteHref": "https://goldenlama.sk",
       "mark": "GL",
+      "seoTitle": "Golden Lama Coffee — LMVK Group",
+      "seoDescription": "Prémiový mobilní kávový koncept postavený na pohostinnosti, designu a myšlence, že káva je až druhý produkt — tím prvním je lepší den.",
       "order": 1,
       "visible": true
     },
@@ -119,6 +125,8 @@
       "websiteLabel": "",
       "websiteHref": "",
       "mark": "GS",
+      "seoTitle": "Golden Studio — LMVK Group",
+      "seoDescription": "Budoucí digitální produktové studio zaměřené na webové stránky, aplikace, CMS systémy a praktické AI pracovní postupy.",
       "order": 2,
       "visible": true
     },
@@ -142,6 +150,8 @@
       "websiteLabel": "",
       "websiteHref": "",
       "mark": "LMVK",
+      "seoTitle": "Budoucí projekty — LMVK Group",
+      "seoDescription": "Nové značky a strategické podnikatelské koncepty vyvíjené pod strukturou LMVK Group, postavené na jasné identitě a dlouhodobé hodnotě.",
       "order": 3,
       "visible": true
     }

@@ -4,6 +4,8 @@
     "siteDescription": "LMVK Group is a private holding and venture group creating premium projects across hospitality, technology, commerce and lifestyle.",
     "seoTitle": "LMVK Group — Private Holding & Venture Group",
     "seoDescription": "LMVK Group is a private holding and venture group creating premium projects across hospitality, technology, commerce and lifestyle.",
+    "ogTitle": "LMVK Group — Private Holding & Venture Group",
+    "ogDescription": "Premium projects across hospitality, technology, commerce and lifestyle — built with patience, quality and clear identity.",
     "ogImage": "/og-image.png",
     "contactEmail": "vesely@goldenlama.sk",
     "socialLinks": []
@@ -65,6 +67,8 @@
     "title": "Let's build something with long-term value.",
     "text": "For partnerships, project opportunities or business communication, contact LMVK Group.",
     "email": "vesely@goldenlama.sk",
+    "phone": "",
+    "company": "",
     "personName": "Marek Veselý",
     "personRole": "CEO"
   },
@@ -96,6 +100,8 @@
       "websiteLabel": "Golden Lama",
       "websiteHref": "https://goldenlama.sk",
       "mark": "GL",
+      "seoTitle": "Golden Lama Coffee — LMVK Group",
+      "seoDescription": "A premium mobile coffee concept built around hospitality, design and the idea that coffee is the second product — the first is a better day.",
       "order": 1,
       "visible": true
     },
@@ -119,6 +125,8 @@
       "websiteLabel": "",
       "websiteHref": "",
       "mark": "GS",
+      "seoTitle": "Golden Studio — LMVK Group",
+      "seoDescription": "A future digital product studio focused on websites, apps, CMS systems and practical AI-assisted business workflows.",
       "order": 2,
       "visible": true
     },
@@ -142,6 +150,8 @@
       "websiteLabel": "",
       "websiteHref": "",
       "mark": "LMVK",
+      "seoTitle": "Future Ventures — LMVK Group",
+      "seoDescription": "New brands and strategic business concepts developed under the LMVK Group structure, built on clear identity and long-term value.",
       "order": 3,
       "visible": true
     }

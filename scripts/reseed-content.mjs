@@ -20,7 +20,7 @@ async function main() {
        DO UPDATE SET content = EXCLUDED.content, updated_at = now()`,
       [locale, JSON.stringify(content)],
     )
-    console.log(`[v0] reseeded ${locale} (${content.hero.title})`)
+    console.log(`[v0] reseeded ${locale} (${content.hero.headline})`)
   }
   await pool.end()
 }

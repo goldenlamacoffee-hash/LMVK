@@ -4,6 +4,8 @@
     "siteDescription": "LMVK Group je súkromná holdingová a venture skupina, ktorá tvorí prémiové projekty v gastronómii, technológiách, obchode a životnom štýle.",
     "seoTitle": "LMVK Group — Súkromná holdingová a venture skupina",
     "seoDescription": "LMVK Group je súkromná holdingová a venture skupina, ktorá tvorí prémiové projekty v gastronómii, technológiách, obchode a životnom štýle.",
+    "ogTitle": "LMVK Group — Súkromná holdingová a venture skupina",
+    "ogDescription": "Prémiové projekty v gastronómii, technológiách, obchode a životnom štýle — s trpezlivosťou, kvalitou a jasnou identitou.",
     "ogImage": "/og-image.png",
     "contactEmail": "vesely@goldenlama.sk",
     "socialLinks": []
@@ -65,6 +67,8 @@
     "title": "Poďme budovať niečo s dlhodobou hodnotou.",
     "text": "Pre partnerstvá, projektové príležitosti alebo obchodnú komunikáciu kontaktujte LMVK Group.",
     "email": "vesely@goldenlama.sk",
+    "phone": "",
+    "company": "",
     "personName": "Marek Veselý",
     "personRole": "CEO"
   },
@@ -96,6 +100,8 @@
       "websiteLabel": "Golden Lama",
       "websiteHref": "https://goldenlama.sk",
       "mark": "GL",
+      "seoTitle": "Golden Lama Coffee — LMVK Group",
+      "seoDescription": "Prémiový mobilný kávový koncept postavený na pohostinnosti, dizajne a myšlienke, že káva je až druhý produkt — tým prvým je lepší deň.",
       "order": 1,
       "visible": true
     },
@@ -119,6 +125,8 @@
       "websiteLabel": "",
       "websiteHref": "",
       "mark": "GS",
+      "seoTitle": "Golden Studio — LMVK Group",
+      "seoDescription": "Budúce digitálne produktové štúdio zamerané na webové stránky, aplikácie, CMS systémy a praktické AI pracovné postupy.",
       "order": 2,
       "visible": true
     },
@@ -142,6 +150,8 @@
       "websiteLabel": "",
       "websiteHref": "",
       "mark": "LMVK",
+      "seoTitle": "Budúce projekty — LMVK Group",
+      "seoDescription": "Nové značky a strategické podnikateľské koncepty vyvíjané pod štruktúrou LMVK Group, postavené na jasnej identite a dlhodobej hodnote.",
       "order": 3,
       "visible": true
     }

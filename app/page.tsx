@@ -24,8 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
     description: settings.seoDescription || settings.siteDescription,
     alternates: localizedAlternates(locale, '/'),
     openGraph: {
-      title: settings.seoTitle || settings.siteTitle,
-      description: settings.seoDescription || settings.siteDescription,
+      title: settings.ogTitle || settings.seoTitle || settings.siteTitle,
+      description:
+        settings.ogDescription ||
+        settings.seoDescription ||
+        settings.siteDescription,
       type: 'website',
       siteName: 'LMVK Group',
       locale: localeConfig[locale].hreflang.replace('-', '_'),
