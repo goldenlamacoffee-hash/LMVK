@@ -19,6 +19,8 @@ export type ProjectContent = {
   index: string
   /** Full brand / project name. */
   name: string
+  /** Short tagline shown under the name on the detail page. */
+  subtitle: string
   /** Short field label used in the portfolio index. */
   field: string
   /** Full category line shown on the detail page. */
@@ -77,6 +79,7 @@ export type SiteContent = {
     visible: boolean
     eyebrow: string
     title: string
+    intro: string
     principles: Principle[]
   }
   portfolio: {

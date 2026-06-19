@@ -1,0 +1,149 @@
+{
+  "settings": {
+    "siteTitle": "LMVK Group — Súkromná holdingová a venture skupina",
+    "siteDescription": "LMVK Group je súkromná holdingová a venture skupina, ktorá tvorí prémiové projekty v gastronómii, technológiách, obchode a životnom štýle.",
+    "seoTitle": "LMVK Group — Súkromná holdingová a venture skupina",
+    "seoDescription": "LMVK Group je súkromná holdingová a venture skupina, ktorá tvorí prémiové projekty v gastronómii, technológiách, obchode a životnom štýle.",
+    "ogImage": "/og-image.png",
+    "contactEmail": "vesely@goldenlama.sk",
+    "socialLinks": []
+  },
+  "nav": {
+    "about": "O nás",
+    "philosophy": "Filozofia",
+    "portfolio": "Portfólio",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "visible": true,
+    "eyebrow": "Súkromná holdingová a venture skupina",
+    "headline": "Budujeme značky s vkusom, disciplínou a dlhodobou víziou.",
+    "subtitle": "LMVK Group tvorí prémiové projekty v gastronómii, technológiách, obchode a životnom štýle — s trpezlivosťou, kvalitou a jasnou identitou.",
+    "primaryCtaText": "Zobraziť portfólio",
+    "primaryCtaLink": "#portfolio",
+    "secondaryCtaText": "Kontaktovať LMVK Group",
+    "secondaryCtaLink": "#contact"
+  },
+  "brandEssence": {
+    "visible": true,
+    "eyebrow": "01 — Podstata značky",
+    "statement": "LMVK Group je súkromná holdingová a venture skupina zameraná na prémiové projekty v gastronómii, technológiách, obchode a životnom štýle.",
+    "items": [
+      { "label": "Účel", "statement": "Budovať značky s dlhodobou hodnotou." },
+      { "label": "Pozícia", "statement": "Tichý luxus, disciplinovaný rast, jasná identita." },
+      { "label": "Atribúty", "statement": "Prémiová, nadčasová, sebavedomá, zdržanlivá, precízna." }
+    ]
+  },
+  "philosophy": {
+    "visible": true,
+    "eyebrow": "02 — Filozofia",
+    "title": "Disciplinovaný prístup k budovaniu značiek.",
+    "intro": "Každý projekt pod LMVK Group musí niesť viac než len názov. Musí mať identitu, kvalitu, konzistentnosť a dôvod pretrvať.",
+    "principles": [
+      { "title": "Vkus", "description": "Každý detail má pôsobiť zámerne." },
+      { "title": "Disciplína", "description": "Silné značky sa budujú konzistentnosťou, nie hlukom." },
+      { "title": "Hodnota", "description": "Budujeme projekty, ktoré môžu rásť, dozrievať a pretrvať." }
+    ]
+  },
+  "portfolio": {
+    "visible": true,
+    "eyebrow": "03 — Portfólio",
+    "title": "Kurátorovaná skupina projektov s dlhodobým smerovaním.",
+    "intro": "LMVK Group spája značky a podnikateľské koncepty, ktoré majú spoločný princíp: musia vytvárať skutočnú hodnotu, nie iba pozornosť."
+  },
+  "featured": {
+    "visible": true,
+    "eyebrow": "Vybraný projekt",
+    "title": "Prvý verejný prejav filozofie LMVK.",
+    "body": "Golden Lama Coffee spája precízne prevedenie, zapamätateľnú identitu a skutočný ľudský zážitok. Vzniká z presvedčenia, že pohostinnosť nie je iba o kvalite produktu, ale aj o tom, aby sa ľudia cítili lepšie.",
+    "ctaText": "Otvoriť goldenlama.sk",
+    "ctaLink": "https://goldenlama.sk"
+  },
+  "contact": {
+    "visible": true,
+    "eyebrow": "04 — Kontakt",
+    "title": "Poďme budovať niečo s dlhodobou hodnotou.",
+    "text": "Pre partnerstvá, projektové príležitosti alebo obchodnú komunikáciu kontaktujte LMVK Group.",
+    "email": "vesely@goldenlama.sk",
+    "personName": "Marek Veselý",
+    "personRole": "CEO"
+  },
+  "footer": {
+    "description": "Súkromná holdingová a venture skupina",
+    "navigateLabel": "Navigácia",
+    "projectsLabel": "Projekty",
+    "company": "LMVK Group",
+    "claim": "Budujeme značky s vkusom, disciplínou a dlhodobou víziou."
+  },
+  "projects": [
+    {
+      "slug": "golden-lama-coffee",
+      "index": "01",
+      "name": "Golden Lama Coffee",
+      "subtitle": "Prémiová mobilná káva s identitou, pohostinnosťou a ľudským teplom.",
+      "field": "Gastronómia",
+      "category": "Gastronómia / Mobilná káva",
+      "status": "Aktívny projekt",
+      "summary": "Prémiový mobilný kávový koncept postavený na pohostinnosti, dizajne a myšlienke, že káva je až druhý produkt — tým prvým je lepší deň.",
+      "description": "Golden Lama Coffee je prvý aktívny projekt pod LMVK Group. Spája mobilnú výberovú kávu, premyslenú vizuálnu identitu a prístup založený na pohostinnosti. Cieľom nie je iba podávať kávu, ale vytvoriť moment, ktorý zlepší deň.",
+      "philosophy": "",
+      "values": [
+        { "title": "Pohostinnosť", "description": "" },
+        { "title": "Dizajn", "description": "" },
+        { "title": "Konzistentnosť", "description": "" },
+        { "title": "Ľudský zážitok", "description": "" }
+      ],
+      "websiteLabel": "Golden Lama",
+      "websiteHref": "https://goldenlama.sk",
+      "mark": "GL",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "slug": "golden-studio",
+      "index": "02",
+      "name": "Golden Studio",
+      "subtitle": "Digitálne produkty a AI pracovné postupy pre praktický rast firiem.",
+      "field": "Technológie",
+      "category": "Digitálne produkty / Weby / Aplikácie / AI",
+      "status": "V príprave",
+      "summary": "Budúce digitálne produktové štúdio zamerané na webové stránky, aplikácie, CMS systémy a praktické AI pracovné postupy pre malé a rastúce firmy.",
+      "description": "Golden Studio je budúce digitálne produktové štúdio zamerané na pomoc malým a rastúcim firmám pri tvorbe webových stránok, aplikácií, CMS systémov a praktických AI pracovných postupov. Myšlienka je jednoduchá: sprístupniť moderné digitálne nástroje tak, aby boli užitočné a priamo napojené na obchodnú hodnotu.",
+      "philosophy": "",
+      "values": [
+        { "title": "Webové stránky", "description": "" },
+        { "title": "Aplikácie", "description": "" },
+        { "title": "CMS systémy", "description": "" },
+        { "title": "AI pracovné postupy", "description": "" }
+      ],
+      "websiteLabel": "",
+      "websiteHref": "",
+      "mark": "GS",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "slug": "future-ventures",
+      "index": "03",
+      "name": "Budúce projekty",
+      "subtitle": "Nové značky a strategické projekty vyvíjané pod LMVK Group.",
+      "field": "Strategické projekty",
+      "category": "Strategické projekty",
+      "status": "Pripravujeme",
+      "summary": "Nové značky a podnikateľské koncepty vyvíjané pod štruktúrou LMVK Group.",
+      "description": "Budúce projekty predstavujú pripravované podnikateľské koncepty a značkové príležitosti vyvíjané pod štruktúrou LMVK Group. Každý budúci projekt musí zodpovedať filozofii skupiny: jasná identita, dlhodobá hodnota a disciplinované prevedenie.",
+      "philosophy": "",
+      "values": [
+        { "title": "Stratégia", "description": "" },
+        { "title": "Identita", "description": "" },
+        { "title": "Rast", "description": "" },
+        { "title": "Dlhodobá hodnota", "description": "" }
+      ],
+      "websiteLabel": "",
+      "websiteHref": "",
+      "mark": "LMVK",
+      "order": 3,
+      "visible": true
+    }
+  ]
+}

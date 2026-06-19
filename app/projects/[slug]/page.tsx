@@ -57,7 +57,7 @@ export default async function ProjectPage({ params }: Params) {
     <>
       <SiteHeader nav={content.nav} locale={locale} />
       <main>
-        <ProjectDetail project={project} />
+        <ProjectDetail project={project} locale={locale} />
       </main>
       <SiteFooter
         nav={content.nav}
