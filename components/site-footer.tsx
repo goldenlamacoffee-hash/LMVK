@@ -3,6 +3,7 @@ import { BrandMark } from '@/components/brand-mark'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import type { ProjectContent, SiteContent } from '@/lib/content/types'
 import type { Locale } from '@/lib/i18n'
+import { uiStrings } from '@/lib/ui-strings'
 
 export function SiteFooter({
   nav,
@@ -15,6 +16,7 @@ export function SiteFooter({
   projects: ProjectContent[]
   locale: Locale
 }) {
+  const t = uiStrings(locale)
   const groupLinks = [
     { label: nav.about, href: '/#about' },
     { label: nav.philosophy, href: '/#philosophy' },
@@ -73,7 +75,7 @@ export function SiteFooter({
 
         <div className="mt-16 flex flex-col gap-3 border-t border-border/60 pt-8 text-xs tracking-wide text-warm-grey sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {footer.company} All rights reserved.
+            © {new Date().getFullYear()} {footer.company} {t.allRightsReserved}
           </p>
           <p>{footer.claim}</p>
         </div>

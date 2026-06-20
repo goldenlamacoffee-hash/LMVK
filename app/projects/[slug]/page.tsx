@@ -24,14 +24,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!project) return {}
 
   const path = `/projects/${slug}`
+  const seoTitle = project.seoTitle || project.name
+  const seoDescription = project.seoDescription || project.summary
   return {
     metadataBase: new URL(localeOrigin(locale)),
-    title: project.name,
-    description: project.summary,
+    title: seoTitle,
+    description: seoDescription,
     alternates: localizedAlternates(locale, path),
     openGraph: {
-      title: `${project.name} — LMVK Group`,
-      description: project.summary,
+      title: project.seoTitle || `${project.name} — LMVK Group`,
+      description: seoDescription,
       url: `${localeConfig[locale].origin}${path}`,
       type: 'website',
       images: [
@@ -57,7 +59,7 @@ export default async function ProjectPage({ params }: Params) {
     <>
       <SiteHeader nav={content.nav} locale={locale} />
       <main>
-        <ProjectDetail project={project} />
+        <ProjectDetail project={project} locale={locale} />
       </main>
       <SiteFooter
         nav={content.nav}

@@ -108,6 +108,14 @@ export function ProjectsEditor({
                       onChange={(v) => updateProject(project.slug, { name: v })}
                     />
                   </Field>
+                  <Field label="Subtitle">
+                    <TextInput
+                      value={project.subtitle}
+                      onChange={(v) =>
+                        updateProject(project.slug, { subtitle: v })
+                      }
+                    />
+                  </Field>
                   <Field label="Field">
                     <TextInput
                       value={project.field}
@@ -159,6 +167,36 @@ export function ProjectsEditor({
                     }
                   />
                 </Field>
+
+                <div className="border-t border-border pt-4">
+                  <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-warm-grey">
+                    SEO
+                  </p>
+                  <div className="mt-3 flex flex-col gap-4">
+                    <Field
+                      label="SEO title"
+                      hint="Falls back to the project name when empty."
+                    >
+                      <TextInput
+                        value={project.seoTitle ?? ''}
+                        onChange={(v) =>
+                          updateProject(project.slug, { seoTitle: v })
+                        }
+                      />
+                    </Field>
+                    <Field
+                      label="SEO description"
+                      hint="Falls back to the summary when empty."
+                    >
+                      <TextArea
+                        value={project.seoDescription ?? ''}
+                        onChange={(v) =>
+                          updateProject(project.slug, { seoDescription: v })
+                        }
+                      />
+                    </Field>
+                  </div>
+                </div>
 
                 <div className="border-t border-border pt-4">
                   <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-warm-grey">

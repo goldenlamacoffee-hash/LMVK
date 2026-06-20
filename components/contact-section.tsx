@@ -38,6 +38,19 @@ export function ContactSection({
               >
                 {content.email}
               </a>
+              {content.phone ? (
+                <a
+                  href={`tel:${content.phone.replace(/\s+/g, '')}`}
+                  className="mt-3 block text-base tracking-wide text-primary-foreground/75 transition-opacity hover:opacity-80"
+                >
+                  {content.phone}
+                </a>
+              ) : null}
+              {content.company ? (
+                <p className="mt-6 max-w-xs text-pretty text-sm leading-relaxed text-primary-foreground/55">
+                  {content.company}
+                </p>
+              ) : null}
               <div className="mt-10 flex items-center gap-3 text-[0.7rem] uppercase tracking-[0.35em] text-primary-foreground/55">
                 <span>{content.personName}</span>
                 <span className="h-px w-6 bg-primary-foreground/30" />

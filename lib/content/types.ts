@@ -19,6 +19,8 @@ export type ProjectContent = {
   index: string
   /** Full brand / project name. */
   name: string
+  /** Short tagline shown under the name on the detail page. */
+  subtitle: string
   /** Short field label used in the portfolio index. */
   field: string
   /** Full category line shown on the detail page. */
@@ -35,6 +37,10 @@ export type ProjectContent = {
   websiteHref: string
   /** Monogram mark rendered behind the detail hero. */
   mark: string
+  /** Per-project SEO title (falls back to the project name). */
+  seoTitle: string
+  /** Per-project SEO description (falls back to the summary). */
+  seoDescription: string
   /** Display order in the portfolio. */
   order: number
   /** Whether the project is shown publicly. */
@@ -47,6 +53,10 @@ export type SiteContent = {
     siteDescription: string
     seoTitle: string
     seoDescription: string
+    /** Open Graph title (falls back to SEO title). */
+    ogTitle: string
+    /** Open Graph description (falls back to SEO description). */
+    ogDescription: string
     ogImage: string
     contactEmail: string
     socialLinks: SocialLink[]
@@ -77,6 +87,7 @@ export type SiteContent = {
     visible: boolean
     eyebrow: string
     title: string
+    intro: string
     principles: Principle[]
   }
   portfolio: {
@@ -99,6 +110,10 @@ export type SiteContent = {
     title: string
     text: string
     email: string
+    /** Optional phone number (hidden when empty). */
+    phone: string
+    /** Optional company / legal line (hidden when empty). */
+    company: string
     personName: string
     personRole: string
   }

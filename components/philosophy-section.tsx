@@ -23,6 +23,11 @@ export function PhilosophySection({
           <h2 className="mt-10 max-w-2xl text-balance font-heading text-3xl font-light leading-tight text-foreground sm:text-4xl lg:text-5xl">
             {content.title}
           </h2>
+          {content.intro ? (
+            <p className="mt-8 max-w-xl text-pretty leading-relaxed text-warm-grey lg:text-lg">
+              {content.intro}
+            </p>
+          ) : null}
         </Reveal>
 
         <div className="mt-20 lg:mt-28">

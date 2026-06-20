@@ -2,7 +2,7 @@ import 'server-only'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { siteContent } from '@/lib/db/schema'
-import { defaultContent } from './defaults'
+import { defaultContent, defaultContentFor } from './defaults'
 import type { SiteContent } from './types'
 import { defaultLocale, locales, type Locale } from '@/lib/i18n'
 
@@ -35,9 +35,14 @@ function mergeWithDefaults<T>(base: T, override: unknown): T {
   return result as T
 }
 
-/** Build a complete, safe SiteContent from a stored partial document. */
-export function withDefaults(stored: unknown): SiteContent {
-  return mergeWithDefaults(defaultContent, stored)
+/**
+ * Build a complete, safe SiteContent from a stored partial document.
+ * Missing fields fall back to the locale's localized defaults (or the
+ * English/EU defaults when no locale is provided).
+ */
+export function withDefaults(stored: unknown, locale?: Locale): SiteContent {
+  const base = locale ? defaultContentFor(locale) : defaultContent
+  return mergeWithDefaults(base, stored)
 }
 
 /**
@@ -56,7 +61,7 @@ export async function getContent(locale: Locale): Promise<SiteContent> {
       .where(eq(siteContent.locale, locale))
       .limit(1)
 
-    if (rows[0]?.content) return withDefaults(rows[0].content)
+    if (rows[0]?.content) return withDefaults(rows[0].content, locale)
 
     if (locale !== defaultLocale) {
       const fallback = await db
@@ -64,12 +69,13 @@ export async function getContent(locale: Locale): Promise<SiteContent> {
         .from(siteContent)
         .where(eq(siteContent.locale, defaultLocale))
         .limit(1)
-      if (fallback[0]?.content) return withDefaults(fallback[0].content)
+      if (fallback[0]?.content)
+        return withDefaults(fallback[0].content, defaultLocale)
     }
   } catch (error) {
     console.error('[v0] getContent failed, using defaults:', error)
   }
-  return defaultContent
+  return defaultContentFor(locale)
 }
 
 /** Save the full content document for a locale (upsert). */
@@ -77,7 +83,7 @@ export async function saveContent(
   locale: Locale,
   content: SiteContent,
 ): Promise<void> {
-  const normalized = withDefaults(content)
+  const normalized = withDefaults(content, locale)
   await db
     .insert(siteContent)
     .values({ locale, content: normalized, updatedAt: new Date() })
@@ -113,7 +119,7 @@ export async function ensureSeeded(): Promise<void> {
     .values(
       missing.map((locale) => ({
         locale,
-        content: defaultContent,
+        content: defaultContentFor(locale),
         updatedAt: new Date(),
       })),
     )
@@ -131,9 +137,9 @@ export async function getEditableContent(
       .from(siteContent)
       .where(eq(siteContent.locale, locale))
       .limit(1)
-    if (rows[0]?.content) return withDefaults(rows[0].content)
+    if (rows[0]?.content) return withDefaults(rows[0].content, locale)
   } catch (error) {
     console.error('[v0] getEditableContent failed, using defaults:', error)
   }
-  return defaultContent
+  return defaultContentFor(locale)
 }

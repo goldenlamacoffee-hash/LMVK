@@ -4,8 +4,17 @@ import type { ProjectContent } from '@/lib/content/types'
 import { MonogramBackdrop } from '@/components/monogram-backdrop'
 import { GoldDivider } from '@/components/gold-divider'
 import { Reveal } from '@/components/reveal'
+import { uiStrings } from '@/lib/ui-strings'
+import type { Locale } from '@/lib/i18n'
 
-export function ProjectDetail({ project }: { project: ProjectContent }) {
+export function ProjectDetail({
+  project,
+  locale,
+}: {
+  project: ProjectContent
+  locale: Locale
+}) {
+  const t = uiStrings(locale)
   const hasWebsite = Boolean(project.websiteHref && project.websiteLabel)
   const hasValues = project.values && project.values.length > 0
 
@@ -33,6 +42,11 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
             <h1 className="mt-8 text-balance font-heading text-5xl font-normal leading-[1.08] text-foreground sm:text-6xl lg:text-7xl">
               {project.name}
             </h1>
+            {project.subtitle ? (
+              <p className="mt-6 max-w-2xl text-pretty font-heading text-xl font-light leading-snug text-gold lg:text-2xl">
+                {project.subtitle}
+              </p>
+            ) : null}
             <GoldDivider variant="short" className="mt-10 w-24" />
             <p className="mt-8 text-[0.7rem] font-medium uppercase tracking-[0.35em] text-warm-grey">
               {project.category}
@@ -54,7 +68,7 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
                 className="group mt-12 inline-flex items-center gap-2 text-sm font-medium tracking-wide text-foreground"
               >
                 <span className="relative">
-                  Visit {project.websiteLabel}
+                  {t.visit} {project.websiteLabel}
                   <span className="absolute -bottom-1 left-0 h-px w-full bg-gold/60 transition-all duration-300 group-hover:bg-gold" />
                 </span>
                 <ArrowUpRight className="h-4 w-4 text-gold transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
@@ -70,7 +84,7 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
           <div className="mx-auto max-w-4xl">
             <Reveal>
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
-                Philosophy
+                {t.philosophy}
               </p>
             </Reveal>
             <Reveal delay={100}>
@@ -88,7 +102,7 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
           <div className="mx-auto max-w-5xl">
             <Reveal>
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
-                Brand Values
+                {t.brandValues}
               </p>
             </Reveal>
 
@@ -99,12 +113,18 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
                     <span className="font-mono text-xs tracking-widest text-warm-grey md:col-span-1">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h2 className="font-heading text-3xl font-normal leading-none text-foreground md:col-span-4 lg:text-4xl">
+                    <h2
+                      className={`font-heading text-3xl font-normal leading-none text-foreground lg:text-4xl ${
+                        value.description ? 'md:col-span-4' : 'md:col-span-11'
+                      }`}
+                    >
                       {value.title}
                     </h2>
-                    <p className="max-w-md text-pretty leading-relaxed text-warm-grey md:col-span-7 lg:text-lg">
-                      {value.description}
-                    </p>
+                    {value.description ? (
+                      <p className="max-w-md text-pretty leading-relaxed text-warm-grey md:col-span-7 lg:text-lg">
+                        {value.description}
+                      </p>
+                    ) : null}
                   </div>
                 </Reveal>
               ))}
@@ -118,9 +138,7 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
         <div className="mx-auto max-w-4xl">
           <GoldDivider variant="short" className="w-24" />
           <p className="mt-12 max-w-xl text-pretty text-lg leading-relaxed text-graphite">
-            {project.name} is a company of LMVK Group — a private venture group
-            building brands that people remember, through precision, patience
-            and emotional value.
+            {t.closing(project.name)}
           </p>
           <Link
             href="/#portfolio"
@@ -128,7 +146,7 @@ export function ProjectDetail({ project }: { project: ProjectContent }) {
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-500 group-hover:-translate-x-1" />
             <span className="relative">
-              Back to portfolio
+              {t.backToPortfolio}
               <span className="absolute -bottom-1 left-0 h-px w-full bg-gold/60 transition-all duration-300 group-hover:bg-gold" />
             </span>
           </Link>
