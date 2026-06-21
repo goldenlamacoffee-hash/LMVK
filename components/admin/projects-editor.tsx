@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import type { ProjectContent } from '@/lib/content/types'
+import type { ImageRef, ProjectContent } from '@/lib/content/types'
 import { Field, TextInput, TextArea, Toggle } from './fields'
+import { ImagePicker } from './media/image-picker'
+import { emptyImage } from '@/lib/content/images'
 
 export function ProjectsEditor({
   projects,
@@ -167,6 +169,129 @@ export function ProjectsEditor({
                     }
                   />
                 </Field>
+
+                <div className="border-t border-border pt-4">
+                  <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-warm-grey">
+                    Images
+                  </p>
+                  <div className="mt-3 flex flex-col gap-5">
+                    <ImagePicker
+                      label="Cover image"
+                      hint="Thumbnail shown on the portfolio card."
+                      value={project.coverImage}
+                      onChange={(v) =>
+                        updateProject(project.slug, { coverImage: v })
+                      }
+                    />
+                    <ImagePicker
+                      label="Hero image"
+                      hint="Large image at the top of the detail page."
+                      value={project.heroImage}
+                      onChange={(v) =>
+                        updateProject(project.slug, { heroImage: v })
+                      }
+                    />
+                    <ImagePicker
+                      label="Open Graph image"
+                      hint="Social share image for this project. Falls back to the global OG image when empty."
+                      value={project.ogImage}
+                      onChange={(v) =>
+                        updateProject(project.slug, { ogImage: v })
+                      }
+                    />
+
+                    {/* Gallery */}
+                    <div className="flex flex-col gap-3">
+                      <span className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-warm-grey">
+                        Gallery
+                      </span>
+                      {project.gallery.map((img, gi) => (
+                        <div
+                          key={gi}
+                          className="border border-border bg-card/60 p-3"
+                        >
+                          <div className="mb-2 flex items-center justify-between">
+                            <span className="text-xs text-muted-foreground">
+                              Image {gi + 1}
+                            </span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                aria-label="Move image up"
+                                disabled={gi === 0}
+                                onClick={() => {
+                                  const gallery = [...project.gallery]
+                                  ;[gallery[gi - 1], gallery[gi]] = [
+                                    gallery[gi],
+                                    gallery[gi - 1],
+                                  ]
+                                  updateProject(project.slug, { gallery })
+                                }}
+                                className="px-1.5 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                              >
+                                ▲
+                              </button>
+                              <button
+                                type="button"
+                                aria-label="Move image down"
+                                disabled={gi === project.gallery.length - 1}
+                                onClick={() => {
+                                  const gallery = [...project.gallery]
+                                  ;[gallery[gi], gallery[gi + 1]] = [
+                                    gallery[gi + 1],
+                                    gallery[gi],
+                                  ]
+                                  updateProject(project.slug, { gallery })
+                                }}
+                                className="px-1.5 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                              >
+                                ▼
+                              </button>
+                              <button
+                                type="button"
+                                aria-label="Remove image"
+                                onClick={() =>
+                                  updateProject(project.slug, {
+                                    gallery: project.gallery.filter(
+                                      (_, idx) => idx !== gi,
+                                    ),
+                                  })
+                                }
+                                className="border border-border px-2 py-0.5 text-xs text-muted-foreground hover:border-destructive hover:text-destructive"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                          <ImagePicker
+                            label={`Gallery image ${gi + 1}`}
+                            showCaption
+                            value={img}
+                            onChange={(v) => {
+                              const gallery = [...project.gallery]
+                              gallery[gi] = v
+                              updateProject(project.slug, { gallery })
+                            }}
+                          />
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateProject(project.slug, {
+                            gallery: [
+                              ...project.gallery,
+                              emptyImage() as ImageRef,
+                            ],
+                          })
+                        }
+                        className="self-start border border-border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-foreground hover:border-foreground"
+                      >
+                        Add gallery image
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="border-t border-border pt-4">
                   <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-warm-grey">

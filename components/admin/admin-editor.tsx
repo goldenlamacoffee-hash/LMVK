@@ -4,26 +4,34 @@ import { useState, useTransition } from 'react'
 import type { Locale } from '@/lib/i18n'
 import { localeConfig } from '@/lib/i18n'
 import type { SiteContent } from '@/lib/content/types'
+import type { MediaAsset } from '@/lib/media/types'
 import { saveContentAction } from '@/app/admin/actions'
 import { logoutAction } from '@/app/admin/actions'
 import { Field, TextInput, TextArea, Toggle, FieldGroup } from './fields'
 import { ProjectsEditor } from './projects-editor'
+import { MediaProvider } from './media/media-context'
+import { ImagePicker, UrlImagePicker } from './media/image-picker'
+import { MediaGallery } from './media/media-gallery'
 
 type ContentByLocale = Record<string, SiteContent>
+type EditorTab = 'content' | 'media'
 
 export function AdminEditor({
   locales,
   initialLocale,
   contentByLocale,
+  initialMedia,
 }: {
   locales: readonly Locale[]
   initialLocale: Locale
   contentByLocale: ContentByLocale
+  initialMedia: MediaAsset[]
 }) {
   const [locale, setLocale] = useState<Locale>(initialLocale)
   const [drafts, setDrafts] = useState<ContentByLocale>(contentByLocale)
   const [dirty, setDirty] = useState<Record<string, boolean>>({})
   const [message, setMessage] = useState<string | null>(null)
+  const [tab, setTab] = useState<EditorTab>('content')
   const [pending, startTransition] = useTransition()
 
   const content = drafts[locale]
@@ -47,6 +55,7 @@ export function AdminEditor({
   }
 
   return (
+    <MediaProvider initialAssets={initialMedia}>
     <main className="min-h-screen bg-background">
       <header className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
@@ -59,17 +68,19 @@ export function AdminEditor({
             </span>
           </div>
           <div className="flex items-center gap-3">
-            {dirty[locale] ? (
+            {tab === 'content' && dirty[locale] ? (
               <span className="text-xs text-warm-grey">Unsaved changes</span>
             ) : null}
-            <button
-              type="button"
-              onClick={save}
-              disabled={pending || !dirty[locale]}
-              className="bg-primary px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
-            >
-              {pending ? 'Saving…' : 'Save'}
-            </button>
+            {tab === 'content' ? (
+              <button
+                type="button"
+                onClick={save}
+                disabled={pending || !dirty[locale]}
+                className="bg-primary px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+              >
+                {pending ? 'Saving…' : 'Save'}
+              </button>
+            ) : null}
             <form action={logoutAction}>
               <button
                 type="submit"
@@ -81,7 +92,26 @@ export function AdminEditor({
           </div>
         </div>
 
-        <div className="mx-auto flex max-w-5xl items-center gap-1 px-6 pb-3">
+        {/* Primary tabs: Content vs Media Gallery */}
+        <div className="mx-auto flex max-w-5xl items-center gap-1 px-6">
+          {(['content', 'media'] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`border-b-2 px-4 py-2.5 text-xs font-medium uppercase tracking-[0.2em] transition-colors ${
+                t === tab
+                  ? 'border-gold text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {t === 'content' ? 'Content' : 'Media Gallery'}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'content' ? (
+          <div className="mx-auto flex max-w-5xl items-center gap-1 px-6 pb-3 pt-2">
           {locales.map((l) => (
             <button
               key={l}
@@ -97,10 +127,13 @@ export function AdminEditor({
               {dirty[l] ? <span className="ml-1.5 text-gold">•</span> : null}
             </button>
           ))}
-        </div>
+          </div>
+        ) : null}
       </header>
 
-      {message ? (
+      {tab === 'media' ? <MediaGallery /> : null}
+
+      {tab === 'content' && message ? (
         <div className="mx-auto max-w-5xl px-6 pt-4">
           <p className="border border-gold/40 bg-gold/10 px-4 py-2 text-sm text-foreground">
             {message}
@@ -108,7 +141,7 @@ export function AdminEditor({
         </div>
       ) : null}
 
-      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-8">
+      <div hidden={tab !== 'content'} className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-8">
         {/* Settings & SEO */}
         <FieldGroup title="Settings & SEO">
           <Field label="Site title">
@@ -190,25 +223,21 @@ export function AdminEditor({
 
         {/* Brand Assets */}
         <FieldGroup title="Brand Assets">
-          <Field
-            label="Open Graph / social image path"
-            hint="Path to the share image, e.g. /og-image.png. Updates live."
-          >
-            <TextInput
-              value={content.settings.ogImage}
-              onChange={(v) =>
-                update((d) => ({
-                  ...d,
-                  settings: { ...d.settings, ogImage: v },
-                }))
-              }
-            />
-          </Field>
+          <UrlImagePicker
+            label="Open Graph / social image"
+            hint="Shown when the site is shared on social media. Choose from the Media Gallery, upload a new image, or paste a path/URL. Updates live."
+            value={content.settings.ogImage}
+            onChange={(v) =>
+              update((d) => ({
+                ...d,
+                settings: { ...d.settings, ogImage: v },
+              }))
+            }
+          />
           <p className="text-xs leading-relaxed text-muted-foreground">
-            The logo and favicon are fixed brand-manual assets managed in code
-            (no image upload yet), so they are not editable here. The OG / social
-            image above is editable because it is referenced by path. To change
-            the logo or favicon, replace the asset files in the project.
+            The logo and favicon are fixed brand-manual assets managed in code,
+            so they are not editable here. To change the logo or favicon,
+            replace the asset files in the project.
           </p>
         </FieldGroup>
 
@@ -724,5 +753,6 @@ export function AdminEditor({
         </div>
       </div>
     </main>
+    </MediaProvider>
   )
 }
