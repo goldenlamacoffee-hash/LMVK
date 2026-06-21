@@ -9,6 +9,7 @@ import { saveContentAction } from '@/app/admin/actions'
 import { logoutAction } from '@/app/admin/actions'
 import { Field, TextInput, TextArea, Toggle, FieldGroup } from './fields'
 import { ProjectsEditor } from './projects-editor'
+import { SectionsEditor } from './sections-editor'
 import { MediaProvider } from './media/media-context'
 import { ImagePicker, UrlImagePicker } from './media/image-picker'
 import { MediaGallery } from './media/media-gallery'
@@ -528,6 +529,15 @@ export function AdminEditor({
         <ProjectsEditor
           projects={content.projects}
           onChange={(projects) => update((d) => ({ ...d, projects }))}
+        />
+
+        {/* Custom sections */}
+        <SectionsEditor
+          blocks={content.sections.customBlocks}
+          projects={content.projects}
+          onChange={(customBlocks) =>
+            update((d) => ({ ...d, sections: { ...d.sections, customBlocks } }))
+          }
         />
 
         {/* Featured */}
