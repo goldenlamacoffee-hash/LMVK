@@ -44,10 +44,15 @@ export function MediaGallery() {
     if (!files || files.length === 0) return
     setUploading(true)
     setMessage(null)
+    // Snapshot the files up front: the input's live FileList is emptied when we
+    // reset `fileRef.current.value` in the finally block, so reading
+    // `files.length` afterward would incorrectly report 0.
+    const selected = Array.from(files)
+    const total = selected.length
     let succeeded = 0
     let lastError: string | null = null
     try {
-      for (const file of Array.from(files)) {
+      for (const file of selected) {
         const result = await upload(file, {
           category: category === 'all' ? 'General' : category,
         })
@@ -69,7 +74,6 @@ export function MediaGallery() {
       if (fileRef.current) fileRef.current.value = ''
     }
 
-    const total = files.length
     const failed = total - succeeded
     if (failed === 0) {
       setMessage(`Uploaded ${total} image(s).`)
