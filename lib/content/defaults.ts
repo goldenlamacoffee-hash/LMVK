@@ -1,5 +1,6 @@
 import type { SiteContent } from './types'
 import type { Locale } from '@/lib/i18n'
+import { ensureImageFields } from './images'
 import enContent from './locales/en.json'
 import skContent from './locales/sk.json'
 import csContent from './locales/cs.json'
@@ -16,9 +17,9 @@ import csContent from './locales/cs.json'
  *  - lmvk.eu  -> en  (also the localhost / preview fallback)
  */
 export const localeDefaults: Record<Locale, SiteContent> = {
-  en: enContent as SiteContent,
-  sk: skContent as SiteContent,
-  cs: csContent as SiteContent,
+  en: ensureImageFields(enContent as SiteContent),
+  sk: ensureImageFields(skContent as SiteContent),
+  cs: ensureImageFields(csContent as SiteContent),
 }
 
 /**

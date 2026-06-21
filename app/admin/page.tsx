@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { isAdminAuthenticated } from '@/lib/admin-auth'
 import { getEditableContent } from '@/lib/content/store'
+import { listMediaAssets } from '@/lib/media/store'
 import { locales, defaultLocale, isLocale } from '@/lib/i18n'
 import { AdminLogin } from '@/components/admin/admin-login'
 import { AdminEditor } from '@/components/admin/admin-editor'
