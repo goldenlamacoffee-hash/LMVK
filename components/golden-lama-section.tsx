@@ -36,17 +36,26 @@ export function GoldenLamaSection({
           ) : null}
         </Reveal>
 
-        <Reveal delay={150} className="order-1 lg:order-2">
-          <div className="relative aspect-[4/5] overflow-hidden">
-            <Image
-              src="/golden-lama-coffee.png"
-              alt="A premium cup of Golden Lama coffee in warm golden light"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover transition-transform duration-[1400ms] ease-out hover:scale-105"
-            />
-          </div>
-        </Reveal>
+        {content.image?.url ? (
+          <Reveal delay={150} className="order-1 lg:order-2">
+            <figure className="relative">
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image
+                  src={content.image.url || '/placeholder.svg'}
+                  alt={content.image.alt || content.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-[1400ms] ease-out hover:scale-105"
+                />
+              </div>
+              {content.image.caption ? (
+                <figcaption className="mt-3 text-xs uppercase tracking-[0.2em] text-warm-grey">
+                  {content.image.caption}
+                </figcaption>
+              ) : null}
+            </figure>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   )

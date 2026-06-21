@@ -26,6 +26,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const path = `/projects/${slug}`
   const seoTitle = project.seoTitle || project.name
   const seoDescription = project.seoDescription || project.summary
+  // Prefer the per-project OG image, then the global OG image, then the static
+  // fallback. Project hero/cover images are good secondary fallbacks.
+  const ogImageUrl =
+    project.ogImage?.url ||
+    project.heroImage?.url ||
+    project.coverImage?.url ||
+    content.settings.ogImage ||
+    '/og-image.png'
   return {
     metadataBase: new URL(localeOrigin(locale)),
     title: seoTitle,
@@ -38,7 +46,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       type: 'website',
       images: [
         {
-          url: content.settings.ogImage || '/og-image.png',
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: project.name,

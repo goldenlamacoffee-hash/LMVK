@@ -4,6 +4,24 @@
  * Every field is editable from the /admin CMS.
  */
 
+/**
+ * A reference to a Media Gallery image stored per-locale inside the content
+ * document. The underlying asset (binary + base metadata) lives once in the
+ * `media_assets` table / Vercel Blob; `assetId` + `url` point at it while
+ * `alt` and `caption` are localized per locale. An empty `url` means "no
+ * image" and the public site falls back gracefully.
+ */
+export type ImageRef = {
+  /** media_assets.id — empty string when no image is selected. */
+  assetId: string
+  /** Public Vercel Blob URL (denormalized for rendering). */
+  url: string
+  /** Localized alt text. */
+  alt: string
+  /** Localized caption / description. */
+  caption: string
+}
+
 export type SocialLink = { label: string; href: string }
 
 export type EssenceItem = { label: string; statement: string }
@@ -45,6 +63,14 @@ export type ProjectContent = {
   order: number
   /** Whether the project is shown publicly. */
   visible: boolean
+  /** Thumbnail shown on the portfolio index card. */
+  coverImage: ImageRef
+  /** Hero image on the project detail page. */
+  heroImage: ImageRef
+  /** Open Graph image override for the detail page (falls back to global). */
+  ogImage: ImageRef
+  /** Ordered gallery images on the detail page. */
+  gallery: ImageRef[]
 }
 
 export type SiteContent = {
@@ -76,6 +102,10 @@ export type SiteContent = {
     primaryCtaLink: string
     secondaryCtaText: string
     secondaryCtaLink: string
+    /** Optional hero image (empty by default to preserve the current design). */
+    image: ImageRef
+    /** Optional background / texture image (empty by default). */
+    backgroundImage: ImageRef
   }
   brandEssence: {
     visible: boolean
@@ -103,6 +133,8 @@ export type SiteContent = {
     body: string
     ctaText: string
     ctaLink: string
+    /** Featured project image (the Golden Lama coffee visual). */
+    image: ImageRef
   }
   contact: {
     visible: boolean

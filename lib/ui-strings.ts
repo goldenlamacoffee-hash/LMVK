@@ -12,6 +12,8 @@ export type UiStrings = {
   brandValues: string
   /** Section label above a project's philosophy statement. */
   philosophy: string
+  /** Section label above a project's image gallery. */
+  gallery: string
   /** "Back to portfolio" link label. */
   backToPortfolio: string
   /** Closing sentence on a project detail page. `{name}` is replaced. */
@@ -24,6 +26,7 @@ const en: UiStrings = {
   visit: 'Visit',
   brandValues: 'Brand Values',
   philosophy: 'Philosophy',
+  gallery: 'Gallery',
   backToPortfolio: 'Back to portfolio',
   closing: (name) =>
     `${name} is part of LMVK Group — a private holding and venture group building premium brands with taste, discipline and long-term vision.`,
@@ -34,6 +37,7 @@ const sk: UiStrings = {
   visit: 'Navštíviť',
   brandValues: 'Hodnoty značky',
   philosophy: 'Filozofia',
+  gallery: 'Galéria',
   backToPortfolio: 'Späť na portfólio',
   closing: (name) =>
     `${name} je súčasťou LMVK Group — súkromnej holdingovej a venture skupiny, ktorá buduje prémiové značky s vkusom, disciplínou a dlhodobou víziou.`,
@@ -44,6 +48,7 @@ const cs: UiStrings = {
   visit: 'Navštívit',
   brandValues: 'Hodnoty značky',
   philosophy: 'Filozofie',
+  gallery: 'Galerie',
   backToPortfolio: 'Zpět na portfolio',
   closing: (name) =>
     `${name} je součástí LMVK Group — soukromé holdingové a venture skupiny, která buduje prémiové značky s vkusem, disciplínou a dlouhodobou vizí.`,

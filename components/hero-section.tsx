@@ -1,14 +1,32 @@
+import Image from 'next/image'
 import { BrandMark } from '@/components/brand-mark'
 import type { SiteContent } from '@/lib/content/types'
 
 export function HeroSection({ content }: { content: SiteContent['hero'] }) {
   if (!content.visible) return null
 
+  const hasBackground = Boolean(content.backgroundImage?.url)
+  const hasImage = Boolean(content.image?.url)
+
   return (
     <section
       id="top"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pb-24 pt-32 text-center lg:px-10"
     >
+      {hasBackground ? (
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <Image
+            src={content.backgroundImage.url || '/placeholder.svg'}
+            alt={content.backgroundImage.alt || ''}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-15"
+          />
+          <div className="absolute inset-0 bg-background/40" />
+        </div>
+      ) : null}
+
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center">
         <p className="animate-fade-up text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
           {content.eyebrow}
@@ -31,6 +49,22 @@ export function HeroSection({ content }: { content: SiteContent['hero'] }) {
         >
           {content.subtitle}
         </p>
+
+        {hasImage ? (
+          <div
+            className="animate-fade-up mt-14 w-full max-w-2xl overflow-hidden"
+            style={{ animationDelay: '420ms' }}
+          >
+            <Image
+              src={content.image.url || '/placeholder.svg'}
+              alt={content.image.alt || content.headline}
+              width={1280}
+              height={720}
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="h-auto w-full object-cover"
+            />
+          </div>
+        ) : null}
 
         <div
           className="animate-fade-up mt-14 flex flex-col items-center gap-4 sm:flex-row"

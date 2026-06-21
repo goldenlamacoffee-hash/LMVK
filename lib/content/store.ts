@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { siteContent } from '@/lib/db/schema'
 import { defaultContent, defaultContentFor } from './defaults'
+import { ensureImageFields } from './images'
 import type { SiteContent } from './types'
 import { defaultLocale, locales, type Locale } from '@/lib/i18n'
 
@@ -42,7 +43,10 @@ function mergeWithDefaults<T>(base: T, override: unknown): T {
  */
 export function withDefaults(stored: unknown, locale?: Locale): SiteContent {
   const base = locale ? defaultContentFor(locale) : defaultContent
-  return mergeWithDefaults(base, stored)
+  // Normalize image fields last so documents that predate the media system
+  // (whose `projects` array would otherwise replace the defaults wholesale)
+  // always end up with safe, well-formed image references.
+  return ensureImageFields(mergeWithDefaults(base, stored))
 }
 
 /**

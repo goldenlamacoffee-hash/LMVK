@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { isAdminAuthenticated } from '@/lib/admin-auth'
 import { getEditableContent } from '@/lib/content/store'
+import { listMediaAssets } from '@/lib/media/store'
 import { locales, defaultLocale, isLocale } from '@/lib/i18n'
 import { AdminLogin } from '@/components/admin/admin-login'
 import { AdminEditor } from '@/components/admin/admin-editor'
@@ -25,17 +26,20 @@ export default async function AdminPage({
     params.locale && isLocale(params.locale) ? params.locale : defaultLocale
 
   // Load editable content for every locale so the editor can switch instantly.
-  const contentByLocale = Object.fromEntries(
-    await Promise.all(
+  const [contentEntries, mediaAssets] = await Promise.all([
+    Promise.all(
       locales.map(async (l) => [l, await getEditableContent(l)] as const),
     ),
-  )
+    listMediaAssets(),
+  ])
+  const contentByLocale = Object.fromEntries(contentEntries)
 
   return (
     <AdminEditor
       locales={locales}
       initialLocale={locale}
       contentByLocale={contentByLocale}
+      initialMedia={mediaAssets}
     />
   )
 }

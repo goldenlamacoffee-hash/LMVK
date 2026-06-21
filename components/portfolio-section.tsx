@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
@@ -45,6 +46,18 @@ export function PortfolioSection({
                   </div>
 
                   <div className="md:col-span-5">
+                    {project.coverImage?.url ? (
+                      <div className="mb-5 aspect-[16/10] overflow-hidden">
+                        <Image
+                          src={project.coverImage.url || '/placeholder.svg'}
+                          alt={project.coverImage.alt || project.name}
+                          width={640}
+                          height={400}
+                          sizes="(max-width: 768px) 100vw, 40vw"
+                          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                        />
+                      </div>
+                    ) : null}
                     <h3 className="font-heading text-4xl font-normal leading-none text-foreground transition-colors duration-500 group-hover:text-gold lg:text-5xl">
                       {project.name}
                     </h3>
