@@ -332,6 +332,22 @@ export function AdminEditor({
               />
             </Field>
           </div>
+          <ImagePicker
+            label="Hero image"
+            hint="Optional. Displayed alongside the hero copy when set."
+            value={content.hero.image}
+            onChange={(v) =>
+              update((d) => ({ ...d, hero: { ...d.hero, image: v } }))
+            }
+          />
+          <ImagePicker
+            label="Hero background image"
+            hint="Optional. Subtle background behind the hero section when set."
+            value={content.hero.backgroundImage}
+            onChange={(v) =>
+              update((d) => ({ ...d, hero: { ...d.hero, backgroundImage: v } }))
+            }
+          />
         </FieldGroup>
 
         {/* Brand Essence */}
@@ -574,6 +590,15 @@ export function AdminEditor({
               />
             </Field>
           </div>
+          <ImagePicker
+            label="Featured image"
+            hint="The visual shown in the Golden Lama featured block."
+            showCaption
+            value={content.featured.image}
+            onChange={(v) =>
+              update((d) => ({ ...d, featured: { ...d.featured, image: v } }))
+            }
+          />
         </FieldGroup>
 
         {/* Contact */}
