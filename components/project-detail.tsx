@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import type { ProjectContent } from '@/lib/content/types'
@@ -17,6 +18,8 @@ export function ProjectDetail({
   const t = uiStrings(locale)
   const hasWebsite = Boolean(project.websiteHref && project.websiteLabel)
   const hasValues = project.values && project.values.length > 0
+  const hasHeroImage = Boolean(project.heroImage?.url)
+  const galleryImages = (project.gallery ?? []).filter((g) => g?.url)
 
   return (
     <article>
@@ -78,6 +81,31 @@ export function ProjectDetail({
         </div>
       </section>
 
+      {/* Hero image */}
+      {hasHeroImage ? (
+        <section className="px-6 lg:px-10">
+          <Reveal>
+            <figure className="mx-auto max-w-5xl">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <Image
+                  src={project.heroImage.url || '/placeholder.svg'}
+                  alt={project.heroImage.alt || project.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              {project.heroImage.caption ? (
+                <figcaption className="mt-3 text-center text-xs uppercase tracking-[0.2em] text-warm-grey">
+                  {project.heroImage.caption}
+                </figcaption>
+              ) : null}
+            </figure>
+          </Reveal>
+        </section>
+      ) : null}
+
       {/* Philosophy */}
       {project.philosophy ? (
         <section className="border-t border-border/50 px-6 py-28 lg:px-10 lg:py-40">
@@ -126,6 +154,41 @@ export function ProjectDetail({
                       </p>
                     ) : null}
                   </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Gallery */}
+      {galleryImages.length > 0 ? (
+        <section className="border-t border-border/50 px-6 py-28 lg:px-10 lg:py-40">
+          <div className="mx-auto max-w-5xl">
+            <Reveal>
+              <p className="text-[0.7rem] font-medium uppercase tracking-[0.5em] text-warm-grey">
+                {t.gallery}
+              </p>
+            </Reveal>
+            <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-16">
+              {galleryImages.map((img, i) => (
+                <Reveal key={img.assetId || img.url || i} delay={i * 100}>
+                  <figure>
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={img.url || '/placeholder.svg'}
+                        alt={img.alt || `${project.name} — ${i + 1}`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-105"
+                      />
+                    </div>
+                    {img.caption ? (
+                      <figcaption className="mt-2 text-xs uppercase tracking-[0.2em] text-warm-grey">
+                        {img.caption}
+                      </figcaption>
+                    ) : null}
+                  </figure>
                 </Reveal>
               ))}
             </div>

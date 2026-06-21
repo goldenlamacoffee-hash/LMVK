@@ -17,9 +17,9 @@ import csContent from './locales/cs.json'
  *  - lmvk.eu  -> en  (also the localhost / preview fallback)
  */
 export const localeDefaults: Record<Locale, SiteContent> = {
-  en: ensureImageFields(enContent as SiteContent),
-  sk: ensureImageFields(skContent as SiteContent),
-  cs: ensureImageFields(csContent as SiteContent),
+  en: ensureImageFields(enContent as unknown as SiteContent),
+  sk: ensureImageFields(skContent as unknown as SiteContent),
+  cs: ensureImageFields(csContent as unknown as SiteContent),
 }
 
 /**
