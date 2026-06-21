@@ -118,6 +118,16 @@ export async function uploadMediaAction(
     }
   }
 
+  // Fail fast with a clear, actionable message when Blob is not configured,
+  // rather than letting put() throw an opaque error.
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.error('[v0] uploadMediaAction: BLOB_READ_WRITE_TOKEN is not set')
+    return {
+      ok: false,
+      error: 'Image upload is not configured. Missing BLOB_READ_WRITE_TOKEN.',
+    }
+  }
+
   const title = String(formData.get('title') ?? '').trim()
   const altText = String(formData.get('altText') ?? '').trim()
   const category = String(formData.get('category') ?? 'General').trim()
@@ -161,7 +171,12 @@ export async function uploadMediaAction(
     return { ok: true, asset }
   } catch (error) {
     console.error('[v0] uploadMediaAction failed:', error)
-    return { ok: false, error: 'Upload failed. Please try again.' }
+    // Surface a useful-but-safe message. Blob/network errors are common here.
+    const message =
+      error instanceof Error && /blob|token|network|fetch/i.test(error.message)
+        ? 'Upload failed while saving the image. Please check your connection and try again.'
+        : 'Upload failed. Please try again.'
+    return { ok: false, error: message }
   }
 }
 

@@ -140,13 +140,19 @@ export function ImagePicker({
   async function handleUpload(file: File) {
     setUploading(true)
     setError(null)
-    const result = await upload(file, { category: 'General' })
-    setUploading(false)
-    if (!result.ok) {
-      setError(result.error ?? 'Upload failed.')
-      return
+    try {
+      const result = await upload(file, { category: 'General' })
+      if (!result.ok) {
+        setError(result.error ?? 'Upload failed.')
+        return
+      }
+      if (result.asset) select(result.asset)
+    } catch (err) {
+      console.error('[v0] ImagePicker upload error:', err)
+      setError('Upload failed. Please try again.')
+    } finally {
+      setUploading(false)
     }
-    if (result.asset) select(result.asset)
   }
 
   return (
@@ -220,13 +226,19 @@ export function UrlImagePicker({
   async function handleUpload(file: File) {
     setUploading(true)
     setError(null)
-    const result = await upload(file, { category: 'Open Graph / Social' })
-    setUploading(false)
-    if (!result.ok) {
-      setError(result.error ?? 'Upload failed.')
-      return
+    try {
+      const result = await upload(file, { category: 'Open Graph / Social' })
+      if (!result.ok) {
+        setError(result.error ?? 'Upload failed.')
+        return
+      }
+      if (result.asset) onChange(result.asset.url)
+    } catch (err) {
+      console.error('[v0] UrlImagePicker upload error:', err)
+      setError('Upload failed. Please try again.')
+    } finally {
+      setUploading(false)
     }
-    if (result.asset) onChange(result.asset.url)
   }
 
   return (

@@ -13,11 +13,36 @@ import {
   updateMediaAction,
   uploadMediaAction,
 } from '@/app/admin/actions'
-import type { MediaAsset, MediaMetadataPatch } from '@/lib/media/types'
+import {
+  ALLOWED_IMAGE_MIME_TYPES,
+  MAX_UPLOAD_BYTES,
+  type MediaAsset,
+  type MediaMetadataPatch,
+} from '@/lib/media/types'
 import { MediaPickerDialog } from './media-picker-dialog'
 
 type UploadResult = { ok: boolean; error?: string; asset?: MediaAsset }
 type DeleteResult = { ok: boolean; error?: string; usage?: string[] }
+
+const ALLOWED_UPLOAD_MIME = new Set<string>(ALLOWED_IMAGE_MIME_TYPES)
+const UPLOAD_TIMEOUT_MS = 60_000
+
+/** Reject a promise if it does not settle within `ms` milliseconds. */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('timeout')), ms)
+    promise.then(
+      (value) => {
+        clearTimeout(timer)
+        resolve(value)
+      },
+      (error) => {
+        clearTimeout(timer)
+        reject(error)
+      },
+    )
+  })
+}
 
 type MediaContextValue = {
   assets: MediaAsset[]
@@ -54,18 +79,56 @@ export function MediaProvider({
   >(null)
 
   const upload = useCallback(
-    async (file: File, meta?: Partial<MediaMetadataPatch>) => {
+    async (
+      file: File,
+      meta?: Partial<MediaMetadataPatch>,
+    ): Promise<UploadResult> => {
+      // Client-side validation so obvious problems fail instantly with a clear
+      // message instead of a round-trip.
+      if (!ALLOWED_UPLOAD_MIME.has(file.type)) {
+        return {
+          ok: false,
+          error:
+            'Unsupported file type. Allowed: JPG, PNG, WEBP, AVIF, GIF.',
+        }
+      }
+      if (file.size > MAX_UPLOAD_BYTES) {
+        return {
+          ok: false,
+          error: `File is too large. Maximum size is ${Math.floor(
+            MAX_UPLOAD_BYTES / (1024 * 1024),
+          )} MB.`,
+        }
+      }
+
       const fd = new FormData()
       fd.append('file', file)
       if (meta?.title) fd.append('title', meta.title)
       if (meta?.altText) fd.append('altText', meta.altText)
       if (meta?.category) fd.append('category', meta.category)
-      const result = await uploadMediaAction(fd)
-      if (result.ok && result.asset) {
-        const added = result.asset
-        setAssets((prev) => [added, ...prev])
+
+      // Guard against a request that never resolves (network stall) so the UI
+      // can never hang on "Uploading…" indefinitely.
+      try {
+        const result = await withTimeout(
+          uploadMediaAction(fd),
+          UPLOAD_TIMEOUT_MS,
+        )
+        if (result.ok && result.asset) {
+          const added = result.asset
+          setAssets((prev) => [added, ...prev])
+        }
+        return result
+      } catch (error) {
+        console.error('[v0] upload failed in client:', error)
+        const timedOut = error instanceof Error && error.message === 'timeout'
+        return {
+          ok: false,
+          error: timedOut
+            ? 'Upload timed out. Please check your connection and try again.'
+            : 'Upload failed. Please try again.',
+        }
       }
-      return result
     },
     [],
   )

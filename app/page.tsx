@@ -4,6 +4,7 @@ import { AboutSection } from '@/components/about-section'
 import { PhilosophySection } from '@/components/philosophy-section'
 import { PortfolioSection } from '@/components/portfolio-section'
 import { GoldenLamaSection } from '@/components/golden-lama-section'
+import { CustomSections } from '@/components/custom-section'
 import { ContactSection } from '@/components/contact-section'
 import { SiteFooter } from '@/components/site-footer'
 import type { Metadata } from 'next'
@@ -55,17 +56,48 @@ export default async function Page() {
   const locale = await getLocale()
   const content = await getContent(locale)
   const projects = visibleProjects(content)
+  const blocks = content.sections.customBlocks
 
   return (
     <>
       <SiteHeader nav={content.nav} locale={locale} />
       <main>
         <HeroSection content={content.hero} />
+        <CustomSections
+          blocks={blocks}
+          placement="afterHero"
+          projects={projects}
+        />
         <AboutSection content={content.brandEssence} />
+        <CustomSections
+          blocks={blocks}
+          placement="afterBrandEssence"
+          projects={projects}
+        />
         <PhilosophySection content={content.philosophy} />
+        <CustomSections
+          blocks={blocks}
+          placement="afterPhilosophy"
+          projects={projects}
+        />
         <PortfolioSection content={content.portfolio} projects={projects} />
+        <CustomSections
+          blocks={blocks}
+          placement="afterPortfolio"
+          projects={projects}
+        />
         <GoldenLamaSection content={content.featured} />
+        <CustomSections
+          blocks={blocks}
+          placement="beforeContact"
+          projects={projects}
+        />
         <ContactSection content={content.contact} />
+        <CustomSections
+          blocks={blocks}
+          placement="beforeFooter"
+          projects={projects}
+        />
       </main>
       <SiteFooter
         nav={content.nav}
