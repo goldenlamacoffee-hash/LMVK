@@ -143,13 +143,13 @@ export function ImagePicker({
     try {
       const result = await upload(file, { category: 'General' })
       if (!result.ok) {
-        setError(result.error ?? 'Upload failed.')
+        setError(result.error ?? `Upload failed. [${result.code ?? 'E_?'}]`)
         return
       }
       if (result.asset) select(result.asset)
     } catch (err) {
       console.error('[v0] ImagePicker upload error:', err)
-      setError('Upload failed. Please try again.')
+      setError('Unexpected error during upload. Please try again. [E_CLIENT]')
     } finally {
       setUploading(false)
     }
@@ -229,13 +229,13 @@ export function UrlImagePicker({
     try {
       const result = await upload(file, { category: 'Open Graph / Social' })
       if (!result.ok) {
-        setError(result.error ?? 'Upload failed.')
+        setError(result.error ?? `Upload failed. [${result.code ?? 'E_?'}]`)
         return
       }
       if (result.asset) onChange(result.asset.url)
     } catch (err) {
       console.error('[v0] UrlImagePicker upload error:', err)
-      setError('Upload failed. Please try again.')
+      setError('Unexpected error during upload. Please try again. [E_CLIENT]')
     } finally {
       setUploading(false)
     }

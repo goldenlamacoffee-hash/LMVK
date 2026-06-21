@@ -21,7 +21,12 @@ import {
 } from '@/lib/media/types'
 import { MediaPickerDialog } from './media-picker-dialog'
 
-type UploadResult = { ok: boolean; error?: string; asset?: MediaAsset }
+type UploadResult = {
+  ok: boolean
+  error?: string
+  code?: string
+  asset?: MediaAsset
+}
 type DeleteResult = { ok: boolean; error?: string; usage?: string[] }
 
 const ALLOWED_UPLOAD_MIME = new Set<string>(ALLOWED_IMAGE_MIME_TYPES)
@@ -88,14 +93,19 @@ export function MediaProvider({
       if (!ALLOWED_UPLOAD_MIME.has(file.type)) {
         return {
           ok: false,
-          error:
-            'Unsupported file type. Allowed: JPG, PNG, WEBP, AVIF, GIF.',
+          code: 'E_TYPE',
+          error: `Unsupported file type "${
+            file.type || 'unknown'
+          }". Allowed: JPG, PNG, WEBP, AVIF, GIF.`,
         }
       }
       if (file.size > MAX_UPLOAD_BYTES) {
         return {
           ok: false,
-          error: `File is too large. Maximum size is ${Math.floor(
+          code: 'E_SIZE',
+          error: `File is too large (${(file.size / (1024 * 1024)).toFixed(
+            1,
+          )} MB). Maximum size is ${Math.floor(
             MAX_UPLOAD_BYTES / (1024 * 1024),
           )} MB.`,
         }
@@ -120,13 +130,22 @@ export function MediaProvider({
         }
         return result
       } catch (error) {
-        console.error('[v0] upload failed in client:', error)
+        // This branch only runs when the Server Action itself rejected (a
+        // framework-level failure) rather than returning a structured result.
+        // The most common cause is the request body exceeding the server
+        // limit, or the connection dropping mid-upload.
+        console.error('[v0] upload action rejected:', error)
         const timedOut = error instanceof Error && error.message === 'timeout'
+        const msg = error instanceof Error ? error.message : String(error)
+        const looksTooLarge = /body|413|payload|limit|exceed/i.test(msg)
         return {
           ok: false,
+          code: timedOut ? 'E_TIMEOUT' : looksTooLarge ? 'E_REQUEST' : 'E_NET',
           error: timedOut
-            ? 'Upload timed out. Please check your connection and try again.'
-            : 'Upload failed. Please try again.',
+            ? 'Upload timed out. Please check your connection and try again. [E_TIMEOUT]'
+            : looksTooLarge
+              ? 'The server rejected the upload because the request was too large. Try a smaller image. [E_REQUEST]'
+              : 'The upload request failed before the server could respond. Please try again. [E_NET]',
         }
       }
     },

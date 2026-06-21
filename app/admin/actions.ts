@@ -73,6 +73,25 @@ export async function saveContentAction(
 
 const ALLOWED_MIME = new Set<string>(ALLOWED_IMAGE_MIME_TYPES)
 
+/**
+ * Produce a short, secret-safe snippet of an error's message for surfacing to
+ * the admin UI. Strips connection strings, tokens, and long noise so we never
+ * leak credentials while still showing the real failure reason.
+ */
+function safeErrorText(error: unknown): string {
+  const raw = error instanceof Error ? error.message : String(error)
+  return (
+    raw
+      // Redact postgres/redis/https credentials embedded in URLs.
+      .replace(/([a-z]+:\/\/)[^@\s]*@/gi, '$1***@')
+      // Redact obvious token-like values.
+      .replace(/(token|key|secret|password)["'\s:=]+[^\s"',}]+/gi, '$1=***')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 140) || 'unknown error'
+  )
+}
+
 function sanitizeFilename(name: string): string {
   const base = name.split(/[\\/]/).pop() ?? 'image'
   return (
@@ -90,29 +109,46 @@ export async function listMediaAction(): Promise<MediaAsset[]> {
   return listMediaAssets()
 }
 
+/** Result of an upload attempt; `code` is a short stable diagnostic tag. */
+export type UploadActionResult = {
+  ok: boolean
+  error?: string
+  code?: string
+  asset?: MediaAsset
+}
+
 /** Upload a new image to Vercel Blob and store its metadata in Neon. */
 export async function uploadMediaAction(
   formData: FormData,
-): Promise<{ ok: boolean; error?: string; asset?: MediaAsset }> {
+): Promise<UploadActionResult> {
   if (!(await isAdminAuthenticated())) {
-    return { ok: false, error: 'Not authenticated.' }
+    return {
+      ok: false,
+      code: 'E_AUTH',
+      error: 'Not authenticated. Please log in again.',
+    }
   }
 
   const file = formData.get('file')
   if (!(file instanceof File) || file.size === 0) {
-    return { ok: false, error: 'No file provided.' }
+    return { ok: false, code: 'E_NO_FILE', error: 'No file provided.' }
   }
   if (!ALLOWED_MIME.has(file.type)) {
     return {
       ok: false,
-      error:
-        'Unsupported file type. Allowed: JPG, PNG, WEBP, AVIF, GIF. SVG is not allowed for security reasons.',
+      code: 'E_TYPE',
+      error: `Unsupported file type "${
+        file.type || 'unknown'
+      }". Allowed: JPG, PNG, WEBP, AVIF, GIF. SVG is not allowed for security reasons.`,
     }
   }
   if (file.size > MAX_UPLOAD_BYTES) {
     return {
       ok: false,
-      error: `File is too large. Maximum size is ${Math.floor(
+      code: 'E_SIZE',
+      error: `File is too large (${(file.size / (1024 * 1024)).toFixed(
+        1,
+      )} MB). Maximum size is ${Math.floor(
         MAX_UPLOAD_BYTES / (1024 * 1024),
       )} MB.`,
     }
@@ -124,6 +160,7 @@ export async function uploadMediaAction(
     console.error('[v0] uploadMediaAction: BLOB_READ_WRITE_TOKEN is not set')
     return {
       ok: false,
+      code: 'E_NO_TOKEN',
       error: 'Image upload is not configured. Missing BLOB_READ_WRITE_TOKEN.',
     }
   }
@@ -132,28 +169,52 @@ export async function uploadMediaAction(
   const altText = String(formData.get('altText') ?? '').trim()
   const category = String(formData.get('category') ?? 'General').trim()
 
+  const safeName = sanitizeFilename(file.name)
+  let buffer: Buffer
   try {
-    const safeName = sanitizeFilename(file.name)
-    const buffer = Buffer.from(await file.arrayBuffer())
-
-    // Best-effort image dimensions via sharp (already a dependency).
-    let width: number | null = null
-    let height: number | null = null
-    try {
-      const sharp = (await import('sharp')).default
-      const meta = await sharp(buffer).metadata()
-      width = meta.width ?? null
-      height = meta.height ?? null
-    } catch (error) {
-      console.error('[v0] dimension probe failed:', error)
+    buffer = Buffer.from(await file.arrayBuffer())
+  } catch (error) {
+    console.error('[v0] uploadMediaAction: reading file failed:', error)
+    return {
+      ok: false,
+      code: 'E_READ',
+      error: `Could not read the uploaded file: ${safeErrorText(error)}`,
     }
+  }
 
-    const blob = await put(`media/${safeName}`, buffer, {
+  // Best-effort image dimensions via sharp. Never fatal — if the native module
+  // is unavailable (or fails), we simply store null dimensions.
+  let width: number | null = null
+  let height: number | null = null
+  try {
+    const sharp = (await import('sharp')).default
+    const meta = await sharp(buffer).metadata()
+    width = meta.width ?? null
+    height = meta.height ?? null
+  } catch (error) {
+    console.error('[v0] dimension probe failed (non-fatal):', error)
+  }
+
+  // Step 1: upload the binary to Vercel Blob.
+  let blob: { url: string; pathname: string }
+  try {
+    blob = await put(`media/${safeName}`, buffer, {
       access: 'public',
       addRandomSuffix: true,
       contentType: file.type,
     })
+  } catch (error) {
+    console.error('[v0] uploadMediaAction: Blob put() failed:', error)
+    return {
+      ok: false,
+      code: 'E_BLOB',
+      error: `Blob upload failed: ${safeErrorText(error)}`,
+    }
+  }
 
+  // Step 2: persist metadata to Neon. If this fails, roll back the blob so we
+  // don't leave an orphaned object.
+  try {
     const asset = await createMediaAsset({
       url: blob.url,
       pathname: blob.pathname,
@@ -167,16 +228,19 @@ export async function uploadMediaAction(
       altText,
       category: category || 'General',
     })
-
     return { ok: true, asset }
   } catch (error) {
-    console.error('[v0] uploadMediaAction failed:', error)
-    // Surface a useful-but-safe message. Blob/network errors are common here.
-    const message =
-      error instanceof Error && /blob|token|network|fetch/i.test(error.message)
-        ? 'Upload failed while saving the image. Please check your connection and try again.'
-        : 'Upload failed. Please try again.'
-    return { ok: false, error: message }
+    console.error('[v0] uploadMediaAction: DB insert failed:', error)
+    try {
+      await del(blob.url)
+    } catch (rollbackError) {
+      console.error('[v0] rollback del() failed:', rollbackError)
+    }
+    return {
+      ok: false,
+      code: 'E_DB',
+      error: `Saving image details failed: ${safeErrorText(error)}`,
+    }
   }
 }
 
