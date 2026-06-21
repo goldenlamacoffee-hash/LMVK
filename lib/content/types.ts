@@ -24,6 +24,67 @@ export type ImageRef = {
 
 export type SocialLink = { label: string; href: string }
 
+/* -------------------------------------------------------------------------- */
+/*  Custom page sections / content blocks                                     */
+/* -------------------------------------------------------------------------- */
+
+/** The supported custom block types for V1. */
+export type BlockType =
+  | 'text'
+  | 'imageText'
+  | 'cta'
+  | 'projectHighlight'
+  | 'gallery'
+  | 'statement'
+
+/** Where a custom block is rendered relative to the fixed homepage sections. */
+export type BlockPlacement =
+  | 'afterHero'
+  | 'afterBrandEssence'
+  | 'afterPhilosophy'
+  | 'afterPortfolio'
+  | 'beforeContact'
+  | 'beforeFooter'
+
+/**
+ * A single custom section/block stored per-locale in
+ * `content.sections.customBlocks`. Uses a flat shape (all type-specific fields
+ * optional) so normalization is lossless and fully backward compatible — older
+ * documents simply have an empty array.
+ */
+export type CustomBlock = {
+  id: string
+  type: BlockType
+  visible: boolean
+  order: number
+  placement: BlockPlacement
+  /** Small label / eyebrow above the title. */
+  eyebrow: string
+  title: string
+  /** Main body text. */
+  text: string
+  /** Optional intro paragraph (gallery sections). */
+  intro: string
+  /** Primary CTA. */
+  ctaText: string
+  ctaLink: string
+  /** Secondary CTA (CTA sections). */
+  secondaryCtaText: string
+  secondaryCtaLink: string
+  /** Single image (image+text, project highlight). */
+  image: ImageRef
+  /** Image side for image+text sections. */
+  imagePosition: 'left' | 'right'
+  /** Multiple images (gallery sections). */
+  gallery: ImageRef[]
+  /** Referenced project slug (project highlight sections). */
+  projectSlug: string
+  /** Whether to render the gold divider rule (statement sections). */
+  showDivider: boolean
+  createdAt: string
+  updatedAt: string
+}
+
 export type EssenceItem = { label: string; statement: string }
 
 export type Principle = { title: string; description: string }
@@ -155,6 +216,10 @@ export type SiteContent = {
     projectsLabel: string
     company: string
     claim: string
+  }
+  /** Admin-created custom sections rendered on the public homepage. */
+  sections: {
+    customBlocks: CustomBlock[]
   }
   projects: ProjectContent[]
 }

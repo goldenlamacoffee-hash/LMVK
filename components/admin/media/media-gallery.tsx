@@ -44,19 +44,44 @@ export function MediaGallery() {
     if (!files || files.length === 0) return
     setUploading(true)
     setMessage(null)
-    let failed = 0
-    for (const file of Array.from(files)) {
-      const result = await upload(file, {
-        category: category === 'all' ? 'General' : category,
-      })
-      if (!result.ok) failed += 1
+    let succeeded = 0
+    let lastError: string | null = null
+    try {
+      for (const file of Array.from(files)) {
+        const result = await upload(file, {
+          category: category === 'all' ? 'General' : category,
+        })
+        if (result.ok) {
+          succeeded += 1
+        } else {
+          lastError = result.error ?? 'Upload failed.'
+        }
+      }
+    } catch (error) {
+      // Defensive: upload() already handles its own errors, but never let an
+      // unexpected throw leave the uploader stuck.
+      console.error('[v0] handleFiles unexpected error:', error)
+      lastError = 'Upload failed. Please try again.'
+    } finally {
+      // Always reset the uploading state and the file input so the admin can
+      // retry immediately without refreshing the page.
+      setUploading(false)
+      if (fileRef.current) fileRef.current.value = ''
     }
-    setUploading(false)
-    setMessage(
-      failed > 0
-        ? `Uploaded with ${failed} error(s).`
-        : `Uploaded ${files.length} image(s).`,
-    )
+
+    const total = files.length
+    const failed = total - succeeded
+    if (failed === 0) {
+      setMessage(`Uploaded ${total} image(s).`)
+    } else if (succeeded === 0) {
+      setMessage(lastError ?? 'Upload failed. Please try again.')
+    } else {
+      setMessage(
+        `Uploaded ${succeeded} of ${total}. ${failed} failed: ${
+          lastError ?? 'Unknown error.'
+        }`,
+      )
+    }
   }
 
   return (
